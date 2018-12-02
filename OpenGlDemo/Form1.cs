@@ -56,7 +56,10 @@ namespace OpenGlDemo
         }
 
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
-        {       
+        {
+            
+            Gl.Enable(EnableCap.DepthTest);
+
             string vertexShader =
                 File.ReadAllText(
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureVertexShader}");
@@ -79,15 +82,14 @@ namespace OpenGlDemo
             Control senderControl = (Control)sender;
             Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
             Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            Gl.Enable(EnableCap.DepthTest);
-
+            
             float color = 1f;
 
             _figureShaderProgram.Use();
             _figureShaderProgram.BindVao();
             Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
 
-            var model = Matrix4x4.CreateTranslation(0f, 0f, 0f);
+            var model = Matrix4x4.CreateTranslation(0f, 0f, 0.5f);
             Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
 
             if (_isTriangle)
@@ -101,7 +103,7 @@ namespace OpenGlDemo
 
             color = 0.5f;
             Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
-            model = Matrix4x4.CreateTranslation(0.2f, 0f, -0.5f);
+            model = Matrix4x4.CreateTranslation(0.2f, 0f, 0.2f);
             Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
 
             if (_isTriangle)
@@ -115,7 +117,7 @@ namespace OpenGlDemo
 
             color = 0.2f;
             Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
-            model = Matrix4x4.CreateTranslation(-0.2f, 0f, 0.5f);
+            model = Matrix4x4.CreateTranslation(-0.2f, 0f, 0.8f);
             Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
 
             if (_isTriangle)

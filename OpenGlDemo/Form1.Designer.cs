@@ -38,7 +38,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.glControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.glControl.ColorBits = ((uint)(24u));
-            this.glControl.DepthBits = ((uint)(0u));
+            this.glControl.DepthBits = ((uint)(24u));
             this.glControl.Location = new System.Drawing.Point(0, 0);
             this.glControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.glControl.MultisampleBits = ((uint)(0u));
