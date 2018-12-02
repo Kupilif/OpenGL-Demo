@@ -58,6 +58,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlObjects\BufferObject.cs" />
+    <Compile Include="GlObjects\ElementBufferObject.cs" />
+    <Compile Include="GlObjects\Shader.cs" />
+    <Compile Include="GlObjects\ShaderProgram.cs" />
+    <Compile Include="GlObjects\VertexArrayObject.cs" />
+    <Compile Include="GlObjects\VertexBufferObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
