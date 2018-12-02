@@ -2,15 +2,15 @@
 
 namespace OpenGlDemo.GlObjects
 {
-    public class ElementBufferObject : BufferObject<int>
+    public class ElementBufferObject : BufferObject<uint>
     {
-        public ElementBufferObject(int[] indices)
-            : base(indices, BufferTarget.ArrayBuffer, sizeof(int))
+        public ElementBufferObject(uint[] indices)
+            : base(indices, BufferTarget.ElementArrayBuffer, sizeof(uint))
         {
         }
 
-        public ElementBufferObject(int[] indices, BufferUsage usage)
-            : base(indices, usage, BufferTarget.ArrayBuffer, sizeof(int))
+        public ElementBufferObject(uint[] indices, BufferUsage usage)
+            : base(indices, usage, BufferTarget.ElementArrayBuffer, sizeof(uint))
         {
         }
     }

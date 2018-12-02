@@ -12,7 +12,7 @@ namespace OpenGlDemo.GlObjects
         public uint Id { get; private set; }
 
         /// <summary>
-        /// Call <see cref="SetUpAttributes"/> after creation.
+        /// Call <see cref="SetUpLocations"/> after creation.
         /// </summary>
         /// <param name="vertexShaderSource"></param>
         /// <param name="fragmentShaderSource"></param>
@@ -25,7 +25,7 @@ namespace OpenGlDemo.GlObjects
         /// <summary>
         /// Should be called after creation.
         /// </summary>
-        public abstract void SetUpAttributes();
+        public abstract void SetUpLocations();
 
         public void CreateVertexArrayObject(VertexBufferObject vbo)
         {

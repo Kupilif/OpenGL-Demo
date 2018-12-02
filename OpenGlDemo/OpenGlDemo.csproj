@@ -62,10 +62,12 @@
     <Compile Include="GlObjects\ElementBufferObject.cs" />
     <Compile Include="GlObjects\Shader.cs" />
     <Compile Include="GlObjects\ShaderProgram.cs" />
+    <Compile Include="GlObjects\ShaderPrograms\FigureShaderProgram.cs" />
     <Compile Include="GlObjects\VertexArrayObject.cs" />
     <Compile Include="GlObjects\VertexBufferObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\GlobalConfig.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +80,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="assets\shaders\figure-fragment-shader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\shaders\figure-vertex-shader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
