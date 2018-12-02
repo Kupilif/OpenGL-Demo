@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using OpenGL;
 
 namespace OpenGlDemo
 {
@@ -15,6 +8,19 @@ namespace OpenGlDemo
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void glControl_ContextCreated(object sender, OpenGL.GlControlEventArgs e)
+        {
+
+        }
+
+        private void glControl_Render(object sender, OpenGL.GlControlEventArgs e)
+        {
+            Control senderControl = (Control)sender;
+
+            Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
+            Gl.Clear(ClearBufferMask.ColorBufferBit);
         }
     }
 }
