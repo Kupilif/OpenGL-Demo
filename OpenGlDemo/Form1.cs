@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using System.Windows.Forms;
 using OpenGlDemo.GlObjects;
 using OpenGlDemo.GlObjects.ShaderPrograms;
@@ -77,13 +78,45 @@ namespace OpenGlDemo
         {
             Control senderControl = (Control)sender;
             Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
-            Gl.Clear(ClearBufferMask.ColorBufferBit);
+            Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            Gl.Enable(EnableCap.DepthTest);
 
             float color = 1f;
 
             _figureShaderProgram.Use();
             _figureShaderProgram.BindVao();
             Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
+
+            var model = Matrix4x4.CreateTranslation(0f, 0f, 0f);
+            Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
+
+            if (_isTriangle)
+            {
+                Gl.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            }
+            else
+            {
+                Gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, null);
+            }
+
+            color = 0.5f;
+            Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
+            model = Matrix4x4.CreateTranslation(0.2f, 0f, -0.5f);
+            Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
+
+            if (_isTriangle)
+            {
+                Gl.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            }
+            else
+            {
+                Gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, null);
+            }
+
+            color = 0.2f;
+            Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
+            model = Matrix4x4.CreateTranslation(-0.2f, 0f, 0.5f);
+            Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref model);
 
             if (_isTriangle)
             {
