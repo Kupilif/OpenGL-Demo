@@ -33,12 +33,12 @@ namespace OpenGlDemo.GlObjects
 
             _vao = new VertexArrayObject();
 
-            BindVao();
+            BindVertexArrayObject();
             vbo.Bind();
 
             BindAttributes();
 
-            UnbindVao();
+            UnbindVertexArrayObject();
         }
 
         public void CreateVertexArrayObject(VertexBufferObject vbo, ElementBufferObject ebo)
@@ -47,13 +47,13 @@ namespace OpenGlDemo.GlObjects
 
             _vao = new VertexArrayObject();
 
-            BindVao();
+            BindVertexArrayObject();
             vbo.Bind();
             ebo.Bind();
 
             BindAttributes();
 
-            UnbindVao();
+            UnbindVertexArrayObject();
         }
 
         public void Use()
@@ -61,12 +61,12 @@ namespace OpenGlDemo.GlObjects
             Gl.UseProgram(Id);
         }
 
-        public void BindVao()
+        public void BindVertexArrayObject()
         {
             _vao?.Bind();
         }
 
-        public void UnbindVao()
+        public void UnbindVertexArrayObject()
         {
             _vao?.Unbind();
         }
