@@ -43,7 +43,7 @@
             this.glControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.glControl.MultisampleBits = ((uint)(0u));
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(800, 450);
+            this.glControl.Size = new System.Drawing.Size(1200, 675);
             this.glControl.StencilBits = ((uint)(0u));
             this.glControl.TabIndex = 0;
             this.glControl.ContextCreated += new System.EventHandler<OpenGL.GlControlEventArgs>(this.glControl_ContextCreated);
@@ -55,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 675);
             this.Controls.Add(this.glControl);
             this.Name = "Form1";
             this.Text = "OpenGL Demo";
