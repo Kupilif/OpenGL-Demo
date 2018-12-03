@@ -7,6 +7,8 @@ namespace OpenGlDemo.Rendering
 {
     public class Camera
     {
+        public float Zoom { get; private set; }
+
         private Vector3 _position;
         private Vector3 _up;
         private Vector3 _front;
@@ -21,6 +23,7 @@ namespace OpenGlDemo.Rendering
             _front = new Vector3(0f, 0f, -1f);
             _yaw = -90f;
             _pitch = 0f;
+            Zoom = 45f;
         }
 
         public Matrix4x4 GetViewMatrix()
@@ -60,6 +63,13 @@ namespace OpenGlDemo.Rendering
             _front.Y = (float)Math.Sin(_pitch.ToRadians());
             _front.Z = (float)Math.Sin(_yaw.ToRadians()) * (float)Math.Cos(_pitch.ToRadians());
             _front = Vector3.Normalize(_front);
+        }
+
+        public void ChangeZoom(float offset, float sensitivity)
+        {
+            Zoom -= offset * sensitivity;
+            Zoom = Zoom < 1f ? 1f : Zoom;
+            Zoom = Zoom > 45f ? 45f : Zoom;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace OpenGlDemo
         private readonly float _figureRotationAngle = (float) Math.PI / 36;
         private readonly float _cameraMoveStep = 0.05f;
         private readonly float _mouseSensitivity = 0.25f;
+        private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 5f);
 
         private Model _figure;
@@ -28,6 +29,7 @@ namespace OpenGlDemo
         public Form1()
         {
             InitializeComponent();
+            glControl.MouseWheel += glControl_MouseWheel;
         }
 
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
@@ -123,6 +125,15 @@ namespace OpenGlDemo
                 _scene.ChangeCameraView(
                     e.Location.X - _previousMousPosition.X, _previousMousPosition.Y - e.Location.Y, _mouseSensitivity);
                 _previousMousPosition = e.Location;
+                glControl.Refresh();
+            }
+        }
+
+        private void glControl_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (_isCameraMoveEnabled)
+            {
+                _scene.ChangeCameraZoom(e.Delta, _mouseWheelSensitivity);
                 glControl.Refresh();
             }
         }

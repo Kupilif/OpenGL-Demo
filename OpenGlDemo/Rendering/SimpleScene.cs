@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Motion;
 using OpenGL;
@@ -56,6 +57,11 @@ namespace OpenGlDemo.Rendering
             _camera.ChangeView(xOffset, yOffset, sensitivity);
         }
 
+        public void ChangeCameraZoom(float offset, float sensitivity)
+        {
+            _camera.ChangeZoom(offset, sensitivity);
+        }
+
         public void Render(int width, int height, FigureShaderProgram figureShaderProgram)
         {
             figureShaderProgram.Use();
@@ -67,7 +73,7 @@ namespace OpenGlDemo.Rendering
             var matrix = _camera.GetViewMatrix();
             Gl.UniformMatrix4f(figureShaderProgram.UniformLocationView, 1, false, ref matrix);
 
-            matrix = Matrix4x4.CreatePerspectiveFieldOfView((float)Math.PI / 4, (float) width / (float) height, 0.1f, 100f);
+            matrix = Matrix4x4.CreatePerspectiveFieldOfView(_camera.Zoom.ToRadians(), (float) width / (float) height, 0.1f, 100f);
             Gl.UniformMatrix4f(figureShaderProgram.UniformLocationProjection, 1, false, ref matrix);
 
             foreach (var figure in _figures)
