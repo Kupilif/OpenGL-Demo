@@ -3,8 +3,9 @@
 in vec3 position;
 
 uniform mat4 model;
+uniform mat4 view;
 
 void main()
 {
-    gl_Position = model * vec4(position, 1.0f);
+    gl_Position = view * model * vec4(position, 1.0f);
 }

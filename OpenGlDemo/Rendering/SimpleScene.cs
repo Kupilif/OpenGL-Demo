@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGL;
 
@@ -6,16 +7,16 @@ namespace OpenGlDemo.Rendering
 {
     public class SimpleScene : IScene
     {
-        private readonly List<Model> _figures;
+        private readonly List<(Model obj, Matrix4x4 viewMatrix)> _figures;
 
         public SimpleScene()
         {
-            _figures = new List<Model>();
+            _figures = new List<(Model obj, Matrix4x4 viewMatrix)>();
         }
 
-        public void AddFigure(Model model)
+        public void AddFigure(Model model, Vector3 position)
         {
-            _figures.Add(model);
+            _figures.Add((model, Matrix4x4.CreateTranslation(position)));
         }
 
         public void Render(FigureShaderProgram figureShaderProgram)
@@ -28,9 +29,13 @@ namespace OpenGlDemo.Rendering
 
             foreach (var figure in _figures)
             {
-                var modelMatrix = figure.Matrix;
-                Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref modelMatrix);
-                figure.Draw();
+                var matrix = figure.obj.Matrix;
+                Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref matrix);
+
+                matrix = figure.viewMatrix;
+                Gl.UniformMatrix4f(figureShaderProgram.UniformLocationView, 1, false, ref matrix);
+
+                figure.obj.Draw();
             }
 
             figureShaderProgram.UnbindVertexArrayObject();

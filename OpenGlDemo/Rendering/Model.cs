@@ -15,21 +15,21 @@ namespace OpenGlDemo.Rendering
         private readonly VertexBufferObject _vbo;
         private readonly ElementBufferObject _ebo;
 
-        public Model(float[] vertexes, int vertexesCount, Vector3 position)
+        public Model(float[] vertexes, int vertexesCount)
         {
             _useIndices = false;
             _vertexesCount = vertexesCount;
             _vbo = new VertexBufferObject(vertexes);
-            Matrix = Matrix4x4.CreateTranslation(position);
+            Matrix = Matrix4x4.Identity;
         }
 
-        public Model(float[] vertexes, uint[] indices, int vertexesCount, Vector3 position)
+        public Model(float[] vertexes, uint[] indices, int vertexesCount)
         {
             _useIndices = true;
             _vertexesCount = vertexesCount;
             _vbo = new VertexBufferObject(vertexes);
             _ebo = new ElementBufferObject(indices);
-            Matrix = Matrix4x4.CreateTranslation(position);
+            Matrix = Matrix4x4.Identity;
         }
 
         public void Transform(Matrix4x4 transformMatrix)

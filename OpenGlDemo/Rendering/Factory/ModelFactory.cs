@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace OpenGlDemo.Rendering.Factory
+﻿namespace OpenGlDemo.Rendering.Factory
 {
     public static class ModelFactory
     {
@@ -17,21 +15,69 @@ namespace OpenGlDemo.Rendering.Factory
             -0.5f, -0.5f, 0.0f,
             -0.5f, 0.5f, 0.0f
         };
+        private static readonly float[] _cubeVertexes =
+        {
+            -0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
 
+            -0.5f, -0.5f,  0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+
+            -0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+
+            -0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f, -0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f, -0.5f, -0.5f,
+
+            -0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f
+        };
         private static readonly uint[] _rectangleIndices =
         {
             0, 1, 3,
             1, 2, 3
         };
 
-        public static Model CreateTriangle(Vector3 position)
+        public static Model CreateTriangle()
         {
-            return new Model(_triangleVertexes, 3, position);
+            return new Model(_triangleVertexes, 3);
         }
 
-        public static Model CreateRectangle(Vector3 position)
+        public static Model CreateRectangle()
         {
-            return new Model(_rectangleVertexes, _rectangleIndices, 6, position);
+            return new Model(_rectangleVertexes, _rectangleIndices, 6);
+        }
+
+        public static Model CreateCube()
+        {
+            return new Model(_cubeVertexes, 36);
         }
     }
 }
