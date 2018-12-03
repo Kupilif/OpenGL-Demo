@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
@@ -15,12 +16,14 @@ namespace OpenGlDemo
     {
         private readonly float _figureRotationAngle = (float) Math.PI / 36;
         private readonly float _cameraMoveStep = 0.05f;
+        private readonly float _mouseSensitivity = 0.25f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 5f);
 
         private Model _figure;
         private IScene _scene;
         private FigureShaderProgram _figureShaderProgram;
         private bool _isCameraMoveEnabled = false;
+        private Point _previousMousPosition;
 
         public Form1()
         {
@@ -29,6 +32,10 @@ namespace OpenGlDemo
 
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
         {
+            Control senderControl = (Control)sender;
+
+            _previousMousPosition = new Point(senderControl.ClientSize.Width / 2, senderControl.ClientSize.Height / 2);
+
             Gl.Enable(EnableCap.DepthTest);
 
             string vertexShader =
@@ -107,6 +114,17 @@ namespace OpenGlDemo
             }
 
             glControl.Refresh();
+        }
+
+        private void glControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isCameraMoveEnabled)
+            {
+                _scene.ChangeCameraView(
+                    e.Location.X - _previousMousPosition.X, _previousMousPosition.Y - e.Location.Y, _mouseSensitivity);
+                _previousMousPosition = e.Location;
+                glControl.Refresh();
+            }
         }
     }
 }

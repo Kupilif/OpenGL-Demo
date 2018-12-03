@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
+using OpenGlDemo.Extensions;
 using OpenGlDemo.Motion;
 
 namespace OpenGlDemo.Rendering
@@ -9,11 +11,16 @@ namespace OpenGlDemo.Rendering
         private Vector3 _up;
         private Vector3 _front;
 
+        private float _pitch;
+        private float _yaw;
+
         public Camera(Vector3 position)
         {
             _position = position;
             _up = new Vector3(0f, 1f, 0f);
             _front = new Vector3(0f, 0f, -1f);
+            _yaw = -90f;
+            _pitch = 0f;
         }
 
         public Matrix4x4 GetViewMatrix()
@@ -38,6 +45,21 @@ namespace OpenGlDemo.Rendering
                     _position -= Vector3.Normalize(Vector3.Cross(_front, _up)) * distance;
                     break;
             }
+        }
+
+        public void ChangeView(float xOffset, float yOffset, float sensitivity)
+        {
+            xOffset *= sensitivity;
+            yOffset *= sensitivity;
+            _yaw += xOffset;
+            _pitch += yOffset;
+            _pitch = _pitch > 89f ? 89f : _pitch;
+            _pitch = _pitch < -89f ? -89f : _pitch;
+
+            _front.X = (float) Math.Cos(_yaw.ToRadians()) * (float) Math.Cos(_pitch.ToRadians());
+            _front.Y = (float)Math.Sin(_pitch.ToRadians());
+            _front.Z = (float)Math.Sin(_yaw.ToRadians()) * (float)Math.Cos(_pitch.ToRadians());
+            _front = Vector3.Normalize(_front);
         }
     }
 }

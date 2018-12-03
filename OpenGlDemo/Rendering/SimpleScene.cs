@@ -51,6 +51,11 @@ namespace OpenGlDemo.Rendering
             _camera.Move(direction, distance);
         }
 
+        public void ChangeCameraView(float xOffset, float yOffset, float sensitivity)
+        {
+            _camera.ChangeView(xOffset, yOffset, sensitivity);
+        }
+
         public void Render(int width, int height, FigureShaderProgram figureShaderProgram)
         {
             figureShaderProgram.Use();

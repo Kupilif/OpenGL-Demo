@@ -9,5 +9,6 @@ namespace OpenGlDemo.Rendering
         void Render(int width, int height, FigureShaderProgram figureShaderProgram);
         void RotateFigures(FigureRotation direction, float angle);
         void MoveCamera(CameraMove direction, float distance);
+        void ChangeCameraView(float xOffset, float yOffset, float sensitivity);
     }
 }

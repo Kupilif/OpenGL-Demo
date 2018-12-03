@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,7 +66,6 @@
     <Compile Include="GlObjects\ShaderPrograms\FigureShaderProgram.cs" />
     <Compile Include="GlObjects\VertexArrayObject.cs" />
     <Compile Include="GlObjects\VertexBufferObject.cs" />
-    <Compile Include="Motion\CameraLook.cs" />
     <Compile Include="Motion\CameraMove.cs" />
     <Compile Include="Motion\FigureRotation.cs" />
     <Compile Include="Program.cs" />
