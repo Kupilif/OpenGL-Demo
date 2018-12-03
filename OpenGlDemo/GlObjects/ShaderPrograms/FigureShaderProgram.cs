@@ -15,7 +15,7 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
 
         }
 
-        public override void SetUpLocations()
+        protected override void SetUpLocations()
         {
             AttributeLocationPosition = Gl.GetAttribLocation(Id, "position");
 

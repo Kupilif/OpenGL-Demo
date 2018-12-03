@@ -20,40 +20,8 @@ namespace OpenGlDemo.GlObjects
         {
             Link(vertexShaderSource, fragmentShaderSource);
             CheckLinkErrors();
-        }
-
-        /// <summary>
-        /// Should be called after creation.
-        /// </summary>
-        public abstract void SetUpLocations();
-
-        public void CreateVertexArrayObject(VertexBufferObject vbo)
-        {
-            _vao?.Dispose();
-
-            _vao = new VertexArrayObject();
-
-            BindVertexArrayObject();
-            vbo.Bind();
-
-            BindAttributes();
-
-            UnbindVertexArrayObject();
-        }
-
-        public void CreateVertexArrayObject(VertexBufferObject vbo, ElementBufferObject ebo)
-        {
-            _vao?.Dispose();
-
-            _vao = new VertexArrayObject();
-
-            BindVertexArrayObject();
-            vbo.Bind();
-            ebo.Bind();
-
-            BindAttributes();
-
-            UnbindVertexArrayObject();
+            SetUpLocations();
+            CreateVertexArrayObject();
         }
 
         public void Use()
@@ -78,6 +46,17 @@ namespace OpenGlDemo.GlObjects
         }
 
         protected abstract void BindAttributes();
+
+        protected abstract void SetUpLocations();
+
+        private void CreateVertexArrayObject()
+        {
+            _vao = new VertexArrayObject();
+
+            BindVertexArrayObject();
+            BindAttributes();
+            UnbindVertexArrayObject();
+        }
 
         private void Link(string[] vertexShaderSource, string[] fragmentShaderSource)
         {

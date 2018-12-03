@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using OpenGlDemo.GlObjects;
+﻿using System.Collections.Generic;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGL;
 
@@ -7,71 +6,34 @@ namespace OpenGlDemo.Rendering
 {
     public class SimpleScene : IScene
     {
-        private readonly FigureShaderProgram _figureShaderProgram;
+        private readonly List<Model> _figures;
 
-        private Model _figure; 
-        private VertexBufferObject _figureVbo;
-        private ElementBufferObject _figureEbo;
-
-        private Matrix4x4 _figureModelMatrix;
-
-        public SimpleScene(FigureShaderProgram figureShaderProgram)
+        public SimpleScene()
         {
-            _figureShaderProgram = figureShaderProgram;
-            
-            _figureModelMatrix = Matrix4x4.CreateTranslation(0f, 0f, 0f);
+            _figures = new List<Model>();
         }
 
         public void AddFigure(Model model)
         {
-            _figure = model;
-
-            _figureVbo?.Dispose();
-            _figureEbo?.Dispose();
-
-            _figureVbo = new VertexBufferObject(model.Vertexes);
-
-            if (model.UseIndices)
-            {
-                _figureEbo = new ElementBufferObject(model.Indices);
-                _figureShaderProgram.CreateVertexArrayObject(_figureVbo, _figureEbo);
-            }
-            else
-            {
-                _figureShaderProgram.CreateVertexArrayObject(_figureVbo);
-            }
+            _figures.Add(model);
         }
 
-        public void Render()
+        public void Render(FigureShaderProgram figureShaderProgram)
         {
-            if (_figure == null)
-            {
-                return;
-            }
-
-            _figureShaderProgram.Use();
-            _figureShaderProgram.BindVertexArrayObject();
+            figureShaderProgram.Use();
+            figureShaderProgram.BindVertexArrayObject();
 
             float color = 1f;
-            Gl.Uniform4f(_figureShaderProgram.UniformLocationColor, 1, ref color);
-            Gl.UniformMatrix4f(_figureShaderProgram.UniformLocationModel, 1, false, ref _figureModelMatrix);
+            Gl.Uniform4f(figureShaderProgram.UniformLocationColor, 1, ref color);
 
-            if (_figure.UseIndices)
+            foreach (var figure in _figures)
             {
-                Gl.DrawElements(PrimitiveType.Triangles, _figure.VertexesCount, DrawElementsType.UnsignedInt, null);
-            }
-            else
-            {
-                Gl.DrawArrays(PrimitiveType.Triangles, 0, _figure.VertexesCount);
+                var modelMatrix = figure.Matrix;
+                Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref modelMatrix);
+                figure.Draw();
             }
 
-            _figureShaderProgram.UnbindVertexArrayObject();
-        }
-
-        public void Dispose()
-        {
-            _figureVbo?.Dispose();
-            _figureEbo?.Dispose();
+            figureShaderProgram.UnbindVertexArrayObject();
         }
     }
 }

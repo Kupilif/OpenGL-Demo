@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using System.Numerics;
 using System.Windows.Forms;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Rendering;
+using OpenGlDemo.Rendering.Factory;
 using OpenGlDemo.Settings;
 using OpenGL;
 
@@ -9,56 +11,14 @@ namespace OpenGlDemo
 {
     public partial class Form1 : Form
     {
-        private readonly Model _triangle = new Model
-        {
-            UseIndices = false,
-            VertexesCount = 3,
-            Vertexes = new [] 
-            {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f,  0.5f, 0.0f
-            }
-        };
-
-        private readonly Model _rectangle = new Model
-        {
-            UseIndices = true,
-            VertexesCount = 6,
-            Vertexes = new[]
-            {
-                0.5f, 0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                -0.5f, 0.5f, 0.0f
-            },
-            Indices = new uint[]
-            {
-                0, 1, 3,
-                1, 2, 3
-            }
-        };
-
+        private Model _triangle;
+        private Model _rectangle;
         private IScene _scene;
         private FigureShaderProgram _figureShaderProgram;
-
-        private bool _isTriangle = true;
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void AddFigure()
-        {
-            if (_isTriangle)
-            {
-                _scene.AddFigure(_triangle);
-            }
-            else
-            {
-                _scene.AddFigure(_rectangle);
-            }
         }
 
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
@@ -72,11 +32,14 @@ namespace OpenGlDemo
                 File.ReadAllText(
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureFragmentShader}");
             
-            _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
-            _figureShaderProgram.SetUpLocations();
-            _scene = new SimpleScene(_figureShaderProgram);
+            _triangle = ModelFactory.CreateTriangle(new Vector3(0.3f, 0.1f, 0f));
+            _rectangle = ModelFactory.CreateRectangle(new Vector3(-0.3f, 0f, 0f));
 
-            AddFigure();
+            _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
+            _scene = new SimpleScene();
+
+            _scene.AddFigure(_triangle);
+            _scene.AddFigure(_rectangle);
         }
 
         private void glControl_Render(object sender, GlControlEventArgs e)
@@ -84,19 +47,18 @@ namespace OpenGlDemo
             Control senderControl = (Control)sender;
             Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
             Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _scene.Render();
+            _scene.Render(_figureShaderProgram);
         }
 
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
         {
-            _scene?.Dispose();
             _figureShaderProgram?.Dispose();
+            _triangle?.Dispose();
+            _rectangle?.Dispose();
         }
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
         {
-            _isTriangle = !_isTriangle;
-            AddFigure();
             glControl.Refresh();
         }
     }
