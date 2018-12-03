@@ -11,7 +11,8 @@ namespace OpenGlDemo
 {
     public partial class Form1 : Form
     {
-        private Model _figure;
+        private Model _triangle;
+        private Model _rectangle;
         private IScene _scene;
         private FigureShaderProgram _figureShaderProgram;
 
@@ -31,12 +32,14 @@ namespace OpenGlDemo
                 File.ReadAllText(
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureFragmentShader}");
             
-            _figure = ModelFactory.CreateCube();
+            _triangle = ModelFactory.CreateTriangle(new Vector3(0.3f, 0.1f, 0f));
+            _rectangle = ModelFactory.CreateRectangle(new Vector3(-0.3f, 0f, 0f));
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SimpleScene();
 
-            _scene.AddFigure(_figure, new Vector3(0f, 0f, 0f));
+            _scene.AddFigure(_triangle);
+            _scene.AddFigure(_rectangle);
         }
 
         private void glControl_Render(object sender, GlControlEventArgs e)
@@ -50,7 +53,8 @@ namespace OpenGlDemo
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
         {
             _figureShaderProgram?.Dispose();
-            _figure?.Dispose();
+            _triangle?.Dispose();
+            _rectangle?.Dispose();
         }
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
