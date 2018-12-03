@@ -9,10 +9,12 @@ namespace OpenGlDemo.Rendering
 {
     public class SimpleScene : IScene
     {
+        private readonly Camera _camera;
         private readonly List<Model> _figures;
 
-        public SimpleScene()
+        public SimpleScene(Vector3 cameraPosition)
         {
+            _camera = new Camera(cameraPosition);
             _figures = new List<Model>();
         }
 
@@ -21,19 +23,19 @@ namespace OpenGlDemo.Rendering
             _figures.Add(model);
         }
 
-        public void RotateFigures(Rotation direction, float angle)
+        public void RotateFigures(FigureRotation direction, float angle)
         {
             Matrix4x4 matrix = Matrix4x4.Identity;
 
             switch (direction)
             {
-                case Rotation.OX:
+                case FigureRotation.OX:
                     matrix = Matrix4x4.CreateRotationX(angle);
                     break;
-                case Rotation.OY:
+                case FigureRotation.OY:
                     matrix = Matrix4x4.CreateRotationY(angle);
                     break;
-                case Rotation.OZ:
+                case FigureRotation.OZ:
                     matrix = Matrix4x4.CreateRotationZ(angle);
                     break;
             }
@@ -44,6 +46,11 @@ namespace OpenGlDemo.Rendering
             }
         }
 
+        public void MoveCamera(CameraMove direction, float distance)
+        {
+            _camera.Move(direction, distance);
+        }
+
         public void Render(int width, int height, FigureShaderProgram figureShaderProgram)
         {
             figureShaderProgram.Use();
@@ -52,8 +59,7 @@ namespace OpenGlDemo.Rendering
             float color = 1f;
             Gl.Uniform4f(figureShaderProgram.UniformLocationColor, 1, ref color);
 
-            var matrix = Matrix4x4.CreateLookAt(new Vector3(0f, 0f, 5f), new Vector3(0f, 0f, 0f),
-                new Vector3(0f, 1f, 0f));
+            var matrix = _camera.GetViewMatrix();
             Gl.UniformMatrix4f(figureShaderProgram.UniformLocationView, 1, false, ref matrix);
 
             matrix = Matrix4x4.CreatePerspectiveFieldOfView((float)Math.PI / 4, (float) width / (float) height, 0.1f, 100f);

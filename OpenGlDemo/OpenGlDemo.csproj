@@ -65,9 +65,12 @@
     <Compile Include="GlObjects\ShaderPrograms\FigureShaderProgram.cs" />
     <Compile Include="GlObjects\VertexArrayObject.cs" />
     <Compile Include="GlObjects\VertexBufferObject.cs" />
-    <Compile Include="Motion\Rotation.cs" />
+    <Compile Include="Motion\CameraLook.cs" />
+    <Compile Include="Motion\CameraMove.cs" />
+    <Compile Include="Motion\FigureRotation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\Factory\ModelFactory.cs" />
     <Compile Include="Rendering\IScene.cs" />
     <Compile Include="Rendering\Model.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace OpenGlDemo.Motion
 {
-    public enum Rotation
+    public enum FigureRotation
     {
         OX,
         OY,

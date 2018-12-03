@@ -14,10 +14,13 @@ namespace OpenGlDemo
     public partial class Form1 : Form
     {
         private readonly float _figureRotationAngle = (float) Math.PI / 36;
+        private readonly float _cameraMoveStep = 0.05f;
+        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 5f);
 
         private Model _figure;
         private IScene _scene;
         private FigureShaderProgram _figureShaderProgram;
+        private bool _isCameraMoveEnabled = false;
 
         public Form1()
         {
@@ -38,7 +41,7 @@ namespace OpenGlDemo
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f));
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
-            _scene = new SimpleScene();
+            _scene = new SimpleScene(_cameraStartPosition);
 
             _scene.AddFigure(_figure);
         }
@@ -59,25 +62,47 @@ namespace OpenGlDemo
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
         {
+            if (_isCameraMoveEnabled)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                        _scene.MoveCamera(CameraMove.Left, _cameraMoveStep);
+                        break;
+                    case Keys.D:
+                        _scene.MoveCamera(CameraMove.Right, _cameraMoveStep);
+                        break;
+                    case Keys.W:
+                        _scene.MoveCamera(CameraMove.Forward, _cameraMoveStep);
+                        break;
+                    case Keys.S:
+                        _scene.MoveCamera(CameraMove.Backward, _cameraMoveStep);
+                        break;
+                }
+            }
+
             switch (e.KeyCode)
             {
                 case Keys.NumPad4:
-                    _scene.RotateFigures(Rotation.OY, -_figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OY, -_figureRotationAngle);
                     break;
                 case Keys.NumPad6:
-                    _scene.RotateFigures(Rotation.OY, _figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OY, _figureRotationAngle);
                     break;
                 case Keys.NumPad8:
-                    _scene.RotateFigures(Rotation.OX, -_figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OX, -_figureRotationAngle);
                     break;
                 case Keys.NumPad2:
-                    _scene.RotateFigures(Rotation.OX, _figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OX, _figureRotationAngle);
                     break;
                 case Keys.NumPad7:
-                    _scene.RotateFigures(Rotation.OZ, _figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OZ, _figureRotationAngle);
                     break;
                 case Keys.NumPad9:
-                    _scene.RotateFigures(Rotation.OZ, -_figureRotationAngle);
+                    _scene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
+                    break;
+                case Keys.Space:
+                    _isCameraMoveEnabled = !_isCameraMoveEnabled;
                     break;
             }
 
