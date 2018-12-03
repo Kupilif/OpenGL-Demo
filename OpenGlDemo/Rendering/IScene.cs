@@ -1,11 +1,10 @@
-﻿using System;
-using OpenGlDemo.GlObjects.ShaderPrograms;
+﻿using OpenGlDemo.GlObjects.ShaderPrograms;
 
 namespace OpenGlDemo.Rendering
 {
     public interface IScene
     {
         void AddFigure(Model model);
-        void Render(FigureShaderProgram figureShaderProgram);
+        void Render(int width, int height, FigureShaderProgram figureShaderProgram);
     }
 }

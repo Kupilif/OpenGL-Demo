@@ -8,6 +8,8 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
         public int AttributeLocationPosition { get; private set; }
         public int UniformLocationColor { get; private set; }
         public int UniformLocationModel { get; private set; }
+        public int UniformLocationView { get; private set; }
+        public int UniformLocationProjection { get; private set; }
 
         public FigureShaderProgram(string[] vertexShaderSource, string[] fragmentShaderSource)
             : base(vertexShaderSource, fragmentShaderSource)
@@ -36,6 +38,20 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
             if (UniformLocationModel < 0)
             {
                 throw new InvalidOperationException("No uniform 'model'");
+            }
+
+            UniformLocationView = Gl.GetUniformLocation(Id, "view");
+
+            if (UniformLocationView < 0)
+            {
+                throw new InvalidOperationException("No uniform 'view'");
+            }
+
+            UniformLocationProjection = Gl.GetUniformLocation(Id, "projection");
+
+            if (UniformLocationProjection < 0)
+            {
+                throw new InvalidOperationException("No uniform 'projection'");
             }
         }
 
