@@ -7,6 +7,11 @@ namespace OpenGlDemo.Rendering
 {
     public class Camera
     {
+        private readonly float _minZoom = 1f;
+        private readonly float _maxZoom = 90;
+        private readonly float _minPitch = -89f;
+        private readonly float _maxPitch = 89f;
+
         public float Zoom { get; private set; }
 
         private Vector3 _position;
@@ -56,8 +61,8 @@ namespace OpenGlDemo.Rendering
             yOffset *= sensitivity;
             _yaw += xOffset;
             _pitch += yOffset;
-            _pitch = _pitch > 89f ? 89f : _pitch;
-            _pitch = _pitch < -89f ? -89f : _pitch;
+            _pitch = _pitch > _maxPitch ? _maxPitch : _pitch;
+            _pitch = _pitch < _minPitch ? -_minPitch : _pitch;
 
             _front.X = (float) Math.Cos(_yaw.ToRadians()) * (float) Math.Cos(_pitch.ToRadians());
             _front.Y = (float)Math.Sin(_pitch.ToRadians());
@@ -68,8 +73,8 @@ namespace OpenGlDemo.Rendering
         public void ChangeZoom(float offset, float sensitivity)
         {
             Zoom -= offset * sensitivity;
-            Zoom = Zoom < 1f ? 1f : Zoom;
-            Zoom = Zoom > 45f ? 45f : Zoom;
+            Zoom = Zoom < _minZoom ? _minZoom : Zoom;
+            Zoom = Zoom > _maxZoom ? _maxZoom : Zoom;
         }
     }
 }

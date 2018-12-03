@@ -7,7 +7,10 @@ namespace OpenGlDemo.Rendering
 {
     public class Model : IDisposable
     {
-        public Matrix4x4 Matrix { get; private set; }
+        public Matrix4x4 Matrix => _matrix * _position;
+
+        private Matrix4x4 _matrix;
+        private readonly Matrix4x4 _position;
 
         private readonly bool _useIndices;
         private readonly int _vertexesCount;
@@ -20,7 +23,9 @@ namespace OpenGlDemo.Rendering
         {
             _useIndices = false;
             _vertexesCount = vertexesCount;
-            Matrix = Matrix4x4.CreateTranslation(position);
+            _position = Matrix4x4.CreateTranslation(position);
+            _matrix = Matrix4x4.Identity;
+
             Initialize(vertexes, null, bindAttributes);
         }
 
@@ -28,13 +33,15 @@ namespace OpenGlDemo.Rendering
         {
             _useIndices = true;
             _vertexesCount = vertexesCount;
-            Matrix = Matrix4x4.CreateTranslation(position);
+            _position = Matrix4x4.CreateTranslation(position);
+            _matrix = Matrix4x4.Identity;
+
             Initialize(vertexes, indices, bindAttributes);
         }
 
         public void Transform(Matrix4x4 transformMatrix)
         {
-            Matrix *= transformMatrix;
+            _matrix *= transformMatrix;
         }
 
         public void Draw()
