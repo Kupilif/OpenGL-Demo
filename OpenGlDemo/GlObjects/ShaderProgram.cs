@@ -7,7 +7,6 @@ namespace OpenGlDemo.GlObjects
     public abstract class ShaderProgram : IDisposable
     {
         private readonly int _logMaxLength = 1024;
-        private VertexArrayObject _vao;
 
         public uint Id { get; private set; }
 
@@ -21,7 +20,6 @@ namespace OpenGlDemo.GlObjects
             Link(vertexShaderSource, fragmentShaderSource);
             CheckLinkErrors();
             SetUpLocations();
-            CreateVertexArrayObject();
         }
 
         public void Use()
@@ -29,34 +27,14 @@ namespace OpenGlDemo.GlObjects
             Gl.UseProgram(Id);
         }
 
-        public void BindVertexArrayObject()
-        {
-            _vao?.Bind();
-        }
-
-        public void UnbindVertexArrayObject()
-        {
-            _vao?.Unbind();
-        }
-
         public void Dispose()
         {
             Gl.DeleteProgram(Id);
-            _vao?.Dispose();
         }
 
-        protected abstract void BindAttributes();
+        public abstract void BindAttributes();
 
         protected abstract void SetUpLocations();
-
-        private void CreateVertexArrayObject()
-        {
-            _vao = new VertexArrayObject();
-
-            BindVertexArrayObject();
-            BindAttributes();
-            UnbindVertexArrayObject();
-        }
 
         private void Link(string[] vertexShaderSource, string[] fragmentShaderSource)
         {

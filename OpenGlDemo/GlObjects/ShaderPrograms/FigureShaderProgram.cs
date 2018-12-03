@@ -17,6 +17,12 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
 
         }
 
+        public override void BindAttributes()
+        {
+            Gl.VertexAttribPointer(0, 3, VertexAttribType.Float, false, 0, IntPtr.Zero);
+            Gl.EnableVertexAttribArray(0);
+        }
+
         protected override void SetUpLocations()
         {
             AttributeLocationPosition = Gl.GetAttribLocation(Id, "position");
@@ -53,12 +59,6 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
             {
                 throw new InvalidOperationException("No uniform 'projection'");
             }
-        }
-
-        protected override void BindAttributes()
-        {
-            Gl.VertexAttribPointer((uint)AttributeLocationPosition, 3, VertexAttribType.Float, false, 0, IntPtr.Zero);
-            Gl.EnableVertexAttribArray((uint)AttributeLocationPosition);
         }
     }
 }

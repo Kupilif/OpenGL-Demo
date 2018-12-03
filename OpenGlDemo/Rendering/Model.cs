@@ -12,24 +12,24 @@ namespace OpenGlDemo.Rendering
         private readonly bool _useIndices;
         private readonly int _vertexesCount;
 
-        private readonly VertexBufferObject _vbo;
-        private readonly ElementBufferObject _ebo;
+        private VertexBufferObject _vbo;
+        private ElementBufferObject _ebo;
+        private VertexArrayObject _vao;
 
-        public Model(float[] vertexes, int vertexesCount, Vector3 position)
+        public Model(float[] vertexes, int vertexesCount, Vector3 position, Action bindAttributes)
         {
             _useIndices = false;
             _vertexesCount = vertexesCount;
-            _vbo = new VertexBufferObject(vertexes);
             Matrix = Matrix4x4.CreateTranslation(position);
+            Initialize(vertexes, null, bindAttributes);
         }
 
-        public Model(float[] vertexes, uint[] indices, int vertexesCount, Vector3 position)
+        public Model(float[] vertexes, uint[] indices, int vertexesCount, Vector3 position, Action bindAttributes)
         {
             _useIndices = true;
             _vertexesCount = vertexesCount;
-            _vbo = new VertexBufferObject(vertexes);
-            _ebo = new ElementBufferObject(indices);
             Matrix = Matrix4x4.CreateTranslation(position);
+            Initialize(vertexes, indices, bindAttributes);
         }
 
         public void Transform(Matrix4x4 transformMatrix)
@@ -39,23 +39,43 @@ namespace OpenGlDemo.Rendering
 
         public void Draw()
         {
-            _vbo.Bind();
+            _vao.Bind();
 
             if (_useIndices)
             {
-                _ebo.Bind();
                 Gl.DrawElements(PrimitiveType.Triangles, _vertexesCount, DrawElementsType.UnsignedInt, null);
             }
             else
             {
                 Gl.DrawArrays(PrimitiveType.Triangles, 0, _vertexesCount);
             }
+
+            _vao.Unbind();
         }
 
         public void Dispose()
         {
             _vbo?.Dispose();
             _ebo?.Dispose();
+            _vao?.Dispose();
+        }
+
+        private void Initialize(float[] vertexes, uint[] indices, Action bindAttributes)
+        {
+            _vao = new VertexArrayObject();
+
+            _vao.Bind();
+
+            _vbo = new VertexBufferObject(vertexes);
+
+            if (indices != null)
+            {
+                _ebo = new ElementBufferObject(indices);
+            }
+
+            bindAttributes();
+
+            _vao.Unbind();
         }
     }
 }

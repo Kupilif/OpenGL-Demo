@@ -65,7 +65,6 @@ namespace OpenGlDemo.Rendering
         public void Render(int width, int height, FigureShaderProgram figureShaderProgram)
         {
             figureShaderProgram.Use();
-            figureShaderProgram.BindVertexArrayObject();
 
             float color = 1f;
             Gl.Uniform4f(figureShaderProgram.UniformLocationColor, 1, ref color);
@@ -82,8 +81,6 @@ namespace OpenGlDemo.Rendering
                 Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref matrix);
                 figure.Draw();
             }
-
-            figureShaderProgram.UnbindVertexArrayObject();
         }
     }
 }

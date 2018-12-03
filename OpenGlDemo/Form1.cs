@@ -18,7 +18,7 @@ namespace OpenGlDemo
         private readonly float _cameraMoveStep = 0.05f;
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
-        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 5f);
+        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 10f);
 
         private Model _figure;
         private IScene _scene;
@@ -46,12 +46,17 @@ namespace OpenGlDemo
             string fragmentShader =
                 File.ReadAllText(
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureFragmentShader}");
-            
-            _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f));
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SimpleScene(_cameraStartPosition);
 
+            _figure = ModelFactory.CreateCube(new Vector3(3f, 3f, 0f), _figureShaderProgram.BindAttributes);
+            _scene.AddFigure(_figure);
+            _figure = ModelFactory.CreateRectangle(new Vector3(-3f, 3f, 0f), _figureShaderProgram.BindAttributes);
+            _scene.AddFigure(_figure);
+            _figure = ModelFactory.CreateTriangle(new Vector3(-3f, -3f, 0f), _figureShaderProgram.BindAttributes);
+            _scene.AddFigure(_figure);
+            _figure = ModelFactory.CreateCube(new Vector3(3f, -3f, 0f), _figureShaderProgram.BindAttributes);
             _scene.AddFigure(_figure);
         }
 
