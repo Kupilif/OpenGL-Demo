@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Motion;
 using OpenGL;
 
 namespace OpenGlDemo.Rendering
@@ -18,6 +19,29 @@ namespace OpenGlDemo.Rendering
         public void AddFigure(Model model)
         {
             _figures.Add(model);
+        }
+
+        public void RotateFigures(Rotation direction, float angle)
+        {
+            Matrix4x4 matrix = Matrix4x4.Identity;
+
+            switch (direction)
+            {
+                case Rotation.OX:
+                    matrix = Matrix4x4.CreateRotationX(angle);
+                    break;
+                case Rotation.OY:
+                    matrix = Matrix4x4.CreateRotationY(angle);
+                    break;
+                case Rotation.OZ:
+                    matrix = Matrix4x4.CreateRotationZ(angle);
+                    break;
+            }
+
+            foreach (var figure in _figures)
+            {
+                figure.Transform(matrix);
+            }
         }
 
         public void Render(int width, int height, FigureShaderProgram figureShaderProgram)

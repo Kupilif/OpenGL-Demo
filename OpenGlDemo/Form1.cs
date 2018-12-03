@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Motion;
 using OpenGlDemo.Rendering;
 using OpenGlDemo.Rendering.Factory;
 using OpenGlDemo.Settings;
@@ -11,6 +13,8 @@ namespace OpenGlDemo
 {
     public partial class Form1 : Form
     {
+        private readonly float _figureRotationAngle = (float) Math.PI / 36;
+
         private Model _figure;
         private IScene _scene;
         private FigureShaderProgram _figureShaderProgram;
@@ -55,6 +59,28 @@ namespace OpenGlDemo
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
         {
+            switch (e.KeyCode)
+            {
+                case Keys.NumPad4:
+                    _scene.RotateFigures(Rotation.OY, -_figureRotationAngle);
+                    break;
+                case Keys.NumPad6:
+                    _scene.RotateFigures(Rotation.OY, _figureRotationAngle);
+                    break;
+                case Keys.NumPad8:
+                    _scene.RotateFigures(Rotation.OX, -_figureRotationAngle);
+                    break;
+                case Keys.NumPad2:
+                    _scene.RotateFigures(Rotation.OX, _figureRotationAngle);
+                    break;
+                case Keys.NumPad7:
+                    _scene.RotateFigures(Rotation.OZ, _figureRotationAngle);
+                    break;
+                case Keys.NumPad9:
+                    _scene.RotateFigures(Rotation.OZ, -_figureRotationAngle);
+                    break;
+            }
+
             glControl.Refresh();
         }
     }
