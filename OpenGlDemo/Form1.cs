@@ -21,8 +21,8 @@ namespace OpenGlDemo
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 3f);
-        private readonly MaterialType _defaultMaterial = MaterialType.Obsidian;
-        private readonly LightType _defaultLightType = LightType.Point;
+        private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
+        private readonly LightType _defaultLightType = LightType.Ambient;
 
         private Model _figure;
         private IScene _scene;
