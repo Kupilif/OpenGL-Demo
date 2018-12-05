@@ -5,21 +5,21 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
 {
     public class FigureShaderProgram : ShaderProgram
     {
-        public int UniformLocationModel { get; private set; }
-        public int UniformLocationView { get; private set; }
-        public int UniformLocationProjection { get; private set; }
+        public int UModel { get; private set; }
+        public int UView { get; private set; }
+        public int UProjection { get; private set; }
 
-        public int UniformLocationMaterialAmbient { get; private set; }
-        public int UniformLocationMaterialDiffuse { get; private set; }
-        public int UniformLocationMaterialSpecular { get; private set; }
-        public int UniformLocationMaterialShininess { get; private set; }
+        public int UMaterialAmbient { get; private set; }
+        public int UMaterialDiffuse { get; private set; }
+        public int UMaterialSpecular { get; private set; }
+        public int UMaterialShininess { get; private set; }
 
-        public int UniformLocationLightPosition { get; private set; }
-        public int UniformLocationLightAmbient { get; private set; }
-        public int UniformLocationLightDiffuse { get; private set; }
-        public int UniformLocationLightSpecular { get; private set; }
+        public int ULightPosition { get; private set; }
+        public int ULightAmbient { get; private set; }
+        public int ULightDiffuse { get; private set; }
+        public int ULightSpecular { get; private set; }
 
-        public int UniformLocationCameraPosition { get; private set; }
+        public int UCameraPosition { get; private set; }
 
         public FigureShaderProgram(string[] vertexShaderSource, string[] fragmentShaderSource)
             : base(vertexShaderSource, fragmentShaderSource)
@@ -37,21 +37,21 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
 
         protected override void SetUpLocations()
         {
-            UniformLocationModel = GetUniformLocation("model");
-            UniformLocationView = GetUniformLocation("view");
-            UniformLocationProjection = GetUniformLocation("projection");
+            UModel = GetUniformLocation("model");
+            UView = GetUniformLocation("view");
+            UProjection = GetUniformLocation("projection");
 
-            UniformLocationMaterialAmbient = GetUniformLocation("material.ambient");
-            UniformLocationMaterialDiffuse = GetUniformLocation("material.diffuse");
-            UniformLocationMaterialSpecular = GetUniformLocation("material.specular");
-            UniformLocationMaterialShininess = GetUniformLocation("material.shininess");
+            UMaterialAmbient = GetUniformLocation("material.ambient");
+            UMaterialDiffuse = GetUniformLocation("material.diffuse");
+            UMaterialSpecular = GetUniformLocation("material.specular");
+            UMaterialShininess = GetUniformLocation("material.shininess");
 
-            UniformLocationLightAmbient = GetUniformLocation("light.ambient");
-            UniformLocationLightDiffuse = GetUniformLocation("light.diffuse");
-            UniformLocationLightSpecular = GetUniformLocation("light.specular");
-            UniformLocationLightPosition = GetUniformLocation("light.position");
+            ULightAmbient = GetUniformLocation("light.ambient");
+            ULightDiffuse = GetUniformLocation("light.diffuse");
+            ULightSpecular = GetUniformLocation("light.specular");
+            ULightPosition = GetUniformLocation("light.position");
 
-            UniformLocationCameraPosition = GetUniformLocation("cameraPosition");
+            UCameraPosition = GetUniformLocation("cameraPosition");
         }
     }
 }

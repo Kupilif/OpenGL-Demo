@@ -64,28 +64,28 @@ namespace OpenGlDemo.Rendering
             figureShaderProgram.Use();
 
             var matrix = _camera.GetViewMatrix();
-            Gl.UniformMatrix4f(figureShaderProgram.UniformLocationView, 1, false, ref matrix);
+            Gl.UniformMatrix4f(figureShaderProgram.UView, 1, false, ref matrix);
 
             matrix = Matrix4x4.CreatePerspectiveFieldOfView(_camera.Zoom.ToRadians(), (float) width / (float) height, 0.1f, 100f);
-            Gl.UniformMatrix4f(figureShaderProgram.UniformLocationProjection, 1, false, ref matrix);
+            Gl.UniformMatrix4f(figureShaderProgram.UProjection, 1, false, ref matrix);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
+            Gl.Uniform3(figureShaderProgram.ULightPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightAmbient, light.Ambient.X, light.Ambient.Y, light.Ambient.Z);
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightDiffuse, light.Diffuse.X, light.Diffuse.Y, light.Diffuse.Z);
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightSpecular, light.Specular.X, light.Specular.Y, light.Specular.Z);
+            Gl.Uniform3(figureShaderProgram.ULightAmbient, light.Ambient.X, light.Ambient.Y, light.Ambient.Z);
+            Gl.Uniform3(figureShaderProgram.ULightDiffuse, light.Diffuse.X, light.Diffuse.Y, light.Diffuse.Z);
+            Gl.Uniform3(figureShaderProgram.ULightSpecular, light.Specular.X, light.Specular.Y, light.Specular.Z);
 
             Material material = MaterialBuilder.Create(_figure.Material);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialAmbient, material.Ambient.X, material.Ambient.Y, material.Ambient.Z);
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialDiffuse, material.Diffuse.X, material.Diffuse.Y, material.Diffuse.Z);
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialSpecular, material.Specular.X, material.Specular.Y, material.Specular.Z);
-            Gl.Uniform1(figureShaderProgram.UniformLocationMaterialShininess, material.Shininess);
+            Gl.Uniform3(figureShaderProgram.UMaterialAmbient, material.Ambient.X, material.Ambient.Y, material.Ambient.Z);
+            Gl.Uniform3(figureShaderProgram.UMaterialDiffuse, material.Diffuse.X, material.Diffuse.Y, material.Diffuse.Z);
+            Gl.Uniform3(figureShaderProgram.UMaterialSpecular, material.Specular.X, material.Specular.Y, material.Specular.Z);
+            Gl.Uniform1(figureShaderProgram.UMaterialShininess, material.Shininess);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationCameraPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
+            Gl.Uniform3(figureShaderProgram.UCameraPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
             matrix = _figure.Matrix;
-            Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref matrix);
+            Gl.UniformMatrix4f(figureShaderProgram.UModel, 1, false, ref matrix);
             _figure.Draw();
         }
     }
