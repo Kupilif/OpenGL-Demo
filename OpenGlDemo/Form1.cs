@@ -19,7 +19,7 @@ namespace OpenGlDemo
         private readonly float _cameraMoveStep = 0.05f;
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
-        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 10f);
+        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 3f);
         private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
 
         private Model _figure;
@@ -119,7 +119,37 @@ namespace OpenGlDemo
                     _figure.Material = MaterialType.Gold;
                     break;
                 case Keys.D2:
+                    _figure.Material = MaterialType.Silver;
+                    break;
+                case Keys.D3:
                     _figure.Material = MaterialType.Bronze;
+                    break;
+                case Keys.D4:
+                    _figure.Material = MaterialType.GreenRubber;
+                    break;
+                case Keys.D5:
+                    _figure.Material = MaterialType.RedPlastic;
+                    break;
+                case Keys.D6:
+                    _figure.Material = MaterialType.Obsidian;
+                    break;
+                case Keys.D7:
+                    _figure.Material = MaterialType.Emerald;
+                    break;
+                case Keys.D8:
+                    _figure.Material = MaterialType.Ruby;
+                    break;
+                case Keys.D9:
+                    _figure.Material = MaterialType.Brass;
+                    break;
+                case Keys.D0:
+                    _figure.Material = MaterialType.Chrome;
+                    break;
+                case Keys.OemMinus:
+                    _figure.Material = MaterialType.Copper;
+                    break;
+                case Keys.Oemplus:
+                    _figure.Material = MaterialType.Pearl;
                     break;
             }
 

@@ -3,6 +3,16 @@
     public enum MaterialType
     {
         Gold,
-        Bronze
+        Silver,
+        Bronze,
+        GreenRubber,
+        RedPlastic,
+        Obsidian,
+        Emerald,
+        Ruby,
+        Brass,
+        Chrome,
+        Copper,
+        Pearl
     }
 }
