@@ -74,7 +74,7 @@
     <Compile Include="Rendering\Factory\ModelFactory.cs" />
     <Compile Include="Rendering\IScene.cs" />
     <Compile Include="Rendering\Model.cs" />
-    <Compile Include="Rendering\SimpleScene.cs" />
+    <Compile Include="Rendering\SingleObjectScene.cs" />
     <Compile Include="Settings\GlobalConfig.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
@@ -8,20 +7,19 @@ using OpenGL;
 
 namespace OpenGlDemo.Rendering
 {
-    public class SimpleScene : IScene
+    public class SingleObjectScene : IScene
     {
         private readonly Camera _camera;
-        private readonly List<Model> _figures;
+        private Model _figure;
 
-        public SimpleScene(Vector3 cameraPosition)
+        public SingleObjectScene(Vector3 cameraPosition)
         {
             _camera = new Camera(cameraPosition);
-            _figures = new List<Model>();
         }
 
         public void AddFigure(Model model)
         {
-            _figures.Add(model);
+            _figure = model;
         }
 
         public void RotateFigures(FigureRotation direction, float angle)
@@ -41,10 +39,7 @@ namespace OpenGlDemo.Rendering
                     break;
             }
 
-            foreach (var figure in _figures)
-            {
-                figure.Transform(matrix);
-            }
+            _figure.Transform(matrix);
         }
 
         public void MoveCamera(CameraMove direction, float distance)
@@ -85,12 +80,9 @@ namespace OpenGlDemo.Rendering
 
             Gl.Uniform3(figureShaderProgram.UniformLocationCameraPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
-            foreach (var figure in _figures)
-            {
-                matrix = figure.Matrix;
-                Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref matrix);
-                figure.Draw();
-            }
+            matrix = _figure.Matrix;
+            Gl.UniformMatrix4f(figureShaderProgram.UniformLocationModel, 1, false, ref matrix);
+            _figure.Draw();
         }
     }
 }

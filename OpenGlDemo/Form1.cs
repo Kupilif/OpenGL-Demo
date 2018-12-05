@@ -48,7 +48,7 @@ namespace OpenGlDemo
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureFragmentShader}");
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
-            _scene = new SimpleScene(_cameraStartPosition);
+            _scene = new SingleObjectScene(_cameraStartPosition);
 
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _scene.AddFigure(_figure);
