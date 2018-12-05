@@ -66,14 +66,24 @@ namespace OpenGlDemo.Rendering
         {
             figureShaderProgram.Use();
 
-            float color = 1f;
-            Gl.Uniform4f(figureShaderProgram.UniformLocationColor, 1, ref color);
-
             var matrix = _camera.GetViewMatrix();
             Gl.UniformMatrix4f(figureShaderProgram.UniformLocationView, 1, false, ref matrix);
 
             matrix = Matrix4x4.CreatePerspectiveFieldOfView(_camera.Zoom.ToRadians(), (float) width / (float) height, 0.1f, 100f);
             Gl.UniformMatrix4f(figureShaderProgram.UniformLocationProjection, 1, false, ref matrix);
+
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
+
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightAmbient, 1f, 1f, 1f);
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightDiffuse, 1f, 1f, 1f);
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightSpecular, 1f, 1f, 1f);
+
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialAmbient, 0.24725f, 0.1995f, 0.0745f);
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialDiffuse, 0.75164f, 0.60648f, 0.22648f);
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialSpecular, 0.628281f, 0.555802f, 0.366065f);
+            Gl.Uniform1(figureShaderProgram.UniformLocationMaterialShininess, 128f);
+
+            Gl.Uniform3(figureShaderProgram.UniformLocationCameraPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
             foreach (var figure in _figures)
             {

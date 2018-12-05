@@ -50,13 +50,7 @@ namespace OpenGlDemo
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SimpleScene(_cameraStartPosition);
 
-            _figure = ModelFactory.CreateCube(new Vector3(3f, 3f, 0f), _figureShaderProgram.BindAttributes);
-            _scene.AddFigure(_figure);
-            _figure = ModelFactory.CreateRectangle(new Vector3(-3f, 3f, 0f), _figureShaderProgram.BindAttributes);
-            _scene.AddFigure(_figure);
-            _figure = ModelFactory.CreateTriangle(new Vector3(-3f, -3f, 0f), _figureShaderProgram.BindAttributes);
-            _scene.AddFigure(_figure);
-            _figure = ModelFactory.CreateCube(new Vector3(3f, -3f, 0f), _figureShaderProgram.BindAttributes);
+            _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _scene.AddFigure(_figure);
         }
 
