@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Materials;
 using OpenGlDemo.Motion;
 using OpenGlDemo.Rendering;
 using OpenGlDemo.Rendering.Factory;
@@ -19,6 +20,7 @@ namespace OpenGlDemo
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 10f);
+        private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
 
         private Model _figure;
         private IScene _scene;
@@ -51,6 +53,7 @@ namespace OpenGlDemo
             _scene = new SingleObjectScene(_cameraStartPosition);
 
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+            _figure.Material = _defaultMaterial;
             _scene.AddFigure(_figure);
         }
 
@@ -111,6 +114,12 @@ namespace OpenGlDemo
                     break;
                 case Keys.Space:
                     _isCameraMoveEnabled = !_isCameraMoveEnabled;
+                    break;
+                case Keys.D1:
+                    _figure.Material = MaterialType.Gold;
+                    break;
+                case Keys.D2:
+                    _figure.Material = MaterialType.Bronze;
                     break;
             }
 

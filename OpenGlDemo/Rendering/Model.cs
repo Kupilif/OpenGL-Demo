@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Numerics;
 using OpenGlDemo.GlObjects;
+using OpenGlDemo.Materials;
 using OpenGL;
 
 namespace OpenGlDemo.Rendering
 {
     public class Model : IDisposable
     {
+        public MaterialType Material { get; set; }
+
         public Matrix4x4 Matrix => _matrix * _position;
 
         private Matrix4x4 _matrix;

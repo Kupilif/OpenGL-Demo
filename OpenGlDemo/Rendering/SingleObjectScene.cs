@@ -2,6 +2,7 @@
 using System.Numerics;
 using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Materials;
 using OpenGlDemo.Motion;
 using OpenGL;
 
@@ -73,10 +74,12 @@ namespace OpenGlDemo.Rendering
             Gl.Uniform3(figureShaderProgram.UniformLocationLightDiffuse, 1f, 1f, 1f);
             Gl.Uniform3(figureShaderProgram.UniformLocationLightSpecular, 1f, 1f, 1f);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialAmbient, 0.24725f, 0.1995f, 0.0745f);
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialDiffuse, 0.75164f, 0.60648f, 0.22648f);
-            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialSpecular, 0.628281f, 0.555802f, 0.366065f);
-            Gl.Uniform1(figureShaderProgram.UniformLocationMaterialShininess, 128f);
+            Material material = MaterialBuilder.Create(_figure.Material);
+
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialAmbient, material.Ambient.X, material.Ambient.Y, material.Ambient.Z);
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialDiffuse, material.Diffuse.X, material.Diffuse.Y, material.Diffuse.Z);
+            Gl.Uniform3(figureShaderProgram.UniformLocationMaterialSpecular, material.Specular.X, material.Specular.Y, material.Specular.Z);
+            Gl.Uniform1(figureShaderProgram.UniformLocationMaterialShininess, material.Shininess);
 
             Gl.Uniform3(figureShaderProgram.UniformLocationCameraPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
