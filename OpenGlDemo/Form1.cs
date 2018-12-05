@@ -22,6 +22,7 @@ namespace OpenGlDemo
         private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 3f);
         private readonly MaterialType _defaultMaterial = MaterialType.Obsidian;
+        private readonly LightType _defaultLightType = LightType.Point;
 
         private Model _figure;
         private IScene _scene;
@@ -53,10 +54,13 @@ namespace OpenGlDemo
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SingleObjectScene(_cameraStartPosition);
+
             _light = LightBuilder.CreateWhiteLight();
+            _light.Type = _defaultLightType;
 
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _figure.Material = _defaultMaterial;
+
             _scene.AddFigure(_figure);
         }
 
@@ -153,6 +157,18 @@ namespace OpenGlDemo
                     break;
                 case Keys.Oemplus:
                     _figure.Material = MaterialType.Pearl;
+                    break;
+                case Keys.F1:
+                    _light.Type = LightType.Ambient;
+                    break;
+                case Keys.F2:
+                    _light.Type = LightType.Directional;
+                    break;
+                case Keys.F3:
+                    _light.Type = LightType.Point;
+                    break;
+                case Keys.F4:
+                    _light.Type = LightType.Spotlight;
                     break;
             }
 

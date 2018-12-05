@@ -14,6 +14,7 @@ namespace OpenGlDemo.Rendering
 
         public float Zoom { get; private set; }
         public Vector3 Position { get; private set; }
+        public Vector3 Front => _front;
 
         private Vector3 _up;
         private Vector3 _front;
