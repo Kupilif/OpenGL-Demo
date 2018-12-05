@@ -36,6 +36,18 @@ namespace OpenGlDemo.GlObjects
 
         protected abstract void SetUpLocations();
 
+        protected int GetUniformLocation(string name)
+        {
+            int result = Gl.GetUniformLocation(Id, name);
+
+            if (result < 0)
+            {
+                throw new InvalidOperationException($"No uniform '{name}'");
+            }
+
+            return result;
+        }
+
         private void Link(string[] vertexShaderSource, string[] fragmentShaderSource)
         {
             using (var vertexShader = new Shader(ShaderType.VertexShader, vertexShaderSource))

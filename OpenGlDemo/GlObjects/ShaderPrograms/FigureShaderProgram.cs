@@ -13,10 +13,12 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
         public int UniformLocationMaterialDiffuse { get; private set; }
         public int UniformLocationMaterialSpecular { get; private set; }
         public int UniformLocationMaterialShininess { get; private set; }
+
         public int UniformLocationLightPosition { get; private set; }
         public int UniformLocationLightAmbient { get; private set; }
         public int UniformLocationLightDiffuse { get; private set; }
         public int UniformLocationLightSpecular { get; private set; }
+
         public int UniformLocationCameraPosition { get; private set; }
 
         public FigureShaderProgram(string[] vertexShaderSource, string[] fragmentShaderSource)
@@ -35,89 +37,21 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
 
         protected override void SetUpLocations()
         {
-            UniformLocationModel = Gl.GetUniformLocation(Id, "model");
+            UniformLocationModel = GetUniformLocation("model");
+            UniformLocationView = GetUniformLocation("view");
+            UniformLocationProjection = GetUniformLocation("projection");
 
-            if (UniformLocationModel < 0)
-            {
-                throw new InvalidOperationException("No uniform 'model'");
-            }
+            UniformLocationMaterialAmbient = GetUniformLocation("material.ambient");
+            UniformLocationMaterialDiffuse = GetUniformLocation("material.diffuse");
+            UniformLocationMaterialSpecular = GetUniformLocation("material.specular");
+            UniformLocationMaterialShininess = GetUniformLocation("material.shininess");
 
-            UniformLocationView = Gl.GetUniformLocation(Id, "view");
+            UniformLocationLightAmbient = GetUniformLocation("light.ambient");
+            UniformLocationLightDiffuse = GetUniformLocation("light.diffuse");
+            UniformLocationLightSpecular = GetUniformLocation("light.specular");
+            UniformLocationLightPosition = GetUniformLocation("light.position");
 
-            if (UniformLocationView < 0)
-            {
-                throw new InvalidOperationException("No uniform 'view'");
-            }
-
-            UniformLocationProjection = Gl.GetUniformLocation(Id, "projection");
-
-            if (UniformLocationProjection < 0)
-            {
-                throw new InvalidOperationException("No uniform 'projection'");
-            }
-
-            UniformLocationMaterialAmbient = Gl.GetUniformLocation(Id, "material.ambient");
-
-            if (UniformLocationMaterialAmbient < 0)
-            {
-                throw new InvalidOperationException("No uniform 'material.ambient'");
-            }
-
-            UniformLocationMaterialDiffuse = Gl.GetUniformLocation(Id, "material.diffuse");
-
-            if (UniformLocationMaterialDiffuse < 0)
-            {
-                throw new InvalidOperationException("No uniform 'material.diffuse'");
-            }
-
-            UniformLocationMaterialSpecular = Gl.GetUniformLocation(Id, "material.specular");
-
-            if (UniformLocationMaterialSpecular < 0)
-            {
-                throw new InvalidOperationException("No uniform 'material.specular'");
-            }
-
-            UniformLocationMaterialShininess = Gl.GetUniformLocation(Id, "material.shininess");
-
-            if (UniformLocationMaterialShininess < 0)
-            {
-                throw new InvalidOperationException("No uniform 'material.shininess'");
-            }
-
-            UniformLocationLightAmbient = Gl.GetUniformLocation(Id, "light.ambient");
-
-            if (UniformLocationLightAmbient < 0)
-            {
-                throw new InvalidOperationException("No uniform 'light.ambient'");
-            }
-
-            UniformLocationLightDiffuse = Gl.GetUniformLocation(Id, "light.diffuse");
-
-            if (UniformLocationLightDiffuse < 0)
-            {
-                throw new InvalidOperationException("No uniform 'light.diffuse'");
-            }
-
-            UniformLocationLightSpecular = Gl.GetUniformLocation(Id, "light.specular");
-
-            if (UniformLocationLightSpecular < 0)
-            {
-                throw new InvalidOperationException("No uniform 'light.specular'");
-            }
-
-            UniformLocationLightPosition = Gl.GetUniformLocation(Id, "light.position");
-
-            if (UniformLocationLightPosition < 0)
-            {
-                throw new InvalidOperationException("No uniform 'light.position'");
-            }
-
-            UniformLocationCameraPosition = Gl.GetUniformLocation(Id, "cameraPosition");
-
-            if (UniformLocationCameraPosition < 0)
-            {
-                throw new InvalidOperationException("No uniform 'cameraPosition'");
-            }
+            UniformLocationCameraPosition = GetUniformLocation("cameraPosition");
         }
     }
 }
