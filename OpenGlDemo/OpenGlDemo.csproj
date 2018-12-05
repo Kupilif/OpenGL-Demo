@@ -66,6 +66,9 @@
     <Compile Include="GlObjects\ShaderPrograms\FigureShaderProgram.cs" />
     <Compile Include="GlObjects\VertexArrayObject.cs" />
     <Compile Include="GlObjects\VertexBufferObject.cs" />
+    <Compile Include="Lighting\Light.cs" />
+    <Compile Include="Lighting\LightBuilder.cs" />
+    <Compile Include="Lighting\LightType.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\MaterialBuilder.cs" />
     <Compile Include="Materials\MaterialType.cs" />

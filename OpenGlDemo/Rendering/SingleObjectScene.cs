@@ -2,6 +2,7 @@
 using System.Numerics;
 using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Lighting;
 using OpenGlDemo.Materials;
 using OpenGlDemo.Motion;
 using OpenGL;
@@ -58,7 +59,7 @@ namespace OpenGlDemo.Rendering
             _camera.ChangeZoom(offset, sensitivity);
         }
 
-        public void Render(int width, int height, FigureShaderProgram figureShaderProgram)
+        public void Render(int width, int height, Light light, FigureShaderProgram figureShaderProgram)
         {
             figureShaderProgram.Use();
 
@@ -70,9 +71,9 @@ namespace OpenGlDemo.Rendering
 
             Gl.Uniform3(figureShaderProgram.UniformLocationLightPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightAmbient, 1f, 1f, 1f);
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightDiffuse, 1f, 1f, 1f);
-            Gl.Uniform3(figureShaderProgram.UniformLocationLightSpecular, 1f, 1f, 1f);
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightAmbient, light.Ambient.X, light.Ambient.Y, light.Ambient.Z);
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightDiffuse, light.Diffuse.X, light.Diffuse.Y, light.Diffuse.Z);
+            Gl.Uniform3(figureShaderProgram.UniformLocationLightSpecular, light.Specular.X, light.Specular.Y, light.Specular.Z);
 
             Material material = MaterialBuilder.Create(_figure.Material);
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
 using OpenGlDemo.GlObjects.ShaderPrograms;
+using OpenGlDemo.Lighting;
 using OpenGlDemo.Materials;
 using OpenGlDemo.Motion;
 using OpenGlDemo.Rendering;
@@ -20,10 +21,11 @@ namespace OpenGlDemo
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 3f);
-        private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
+        private readonly MaterialType _defaultMaterial = MaterialType.Obsidian;
 
         private Model _figure;
         private IScene _scene;
+        private Light _light;
         private FigureShaderProgram _figureShaderProgram;
         private bool _isCameraMoveEnabled = false;
         private Point _previousMousPosition;
@@ -51,6 +53,7 @@ namespace OpenGlDemo
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SingleObjectScene(_cameraStartPosition);
+            _light = LightBuilder.CreateWhiteLight();
 
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _figure.Material = _defaultMaterial;
@@ -62,7 +65,7 @@ namespace OpenGlDemo
             Control senderControl = (Control)sender;
             Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
             Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _scene.Render(senderControl.ClientSize.Width, senderControl.ClientSize.Height, _figureShaderProgram);
+            _scene.Render(senderControl.ClientSize.Width, senderControl.ClientSize.Height, _light, _figureShaderProgram);
         }
 
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
