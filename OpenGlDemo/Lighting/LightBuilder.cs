@@ -18,8 +18,8 @@ namespace OpenGlDemo.Lighting
                 LinearCoefficient = 0.09f,
                 QuadraticCoefficient = 0.032f,
 
-                InnerCutOff = 12.5f,
-                OuterCutOff = 15f
+                InnerCutOff = 50f,
+                OuterCutOff = 70f
             };
         }
     }
