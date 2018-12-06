@@ -57,7 +57,7 @@ vec4 calculatePointLight(float intensity)
     float attenuation = 1.0 / (light.constant + light.linear * distance + 
     		    light.quadratic * (distance * distance));
 
-    return vec4(ambient + diffuse * attenuation * intensity + specular * attenuation * intensity, 1.0);
+    return vec4(ambient * attenuation + diffuse * attenuation * intensity + specular * attenuation * intensity, 1.0);
 }
 
 vec4 pointLight()
