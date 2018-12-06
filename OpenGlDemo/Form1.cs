@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
+using OpenGlDemo.GlObjects;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Lighting;
 using OpenGlDemo.Materials;
@@ -27,7 +28,7 @@ namespace OpenGlDemo
         private Model _figure;
         private IScene _scene;
         private Light _light;
-        private FigureShaderProgram _figureShaderProgram;
+        private ShaderProgram _figureShaderProgram;
         private bool _isCameraMoveEnabled = false;
         private Point _previousMousPosition;
 

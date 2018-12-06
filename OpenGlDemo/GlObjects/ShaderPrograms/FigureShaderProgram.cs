@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Numerics;
+using OpenGlDemo.Lighting;
+using OpenGlDemo.Materials;
 using OpenGL;
 
 namespace OpenGlDemo.GlObjects.ShaderPrograms
@@ -40,6 +43,33 @@ namespace OpenGlDemo.GlObjects.ShaderPrograms
             Gl.EnableVertexAttribArray(0);
             Gl.VertexAttribPointer(1, 3, VertexAttribType.Float, false, 6 * sizeof(float), new IntPtr(3 * sizeof(float)));
             Gl.EnableVertexAttribArray(1);
+        }
+
+        public void SetMaterial(Material material)
+        {
+            Gl.Uniform3(UMaterialAmbient, material.Ambient.X, material.Ambient.Y, material.Ambient.Z);
+            Gl.Uniform3(UMaterialDiffuse, material.Diffuse.X, material.Diffuse.Y, material.Diffuse.Z);
+            Gl.Uniform3(UMaterialSpecular, material.Specular.X, material.Specular.Y, material.Specular.Z);
+            Gl.Uniform1(UMaterialShininess, material.Shininess);
+        }
+
+        public void SetLight(Light light, Vector3 position, Vector3 direction)
+        {
+            Gl.Uniform1(ULightType, (int)light.Type);
+
+            Gl.Uniform3(ULightPosition, position.X, position.Y, position.Z);
+            Gl.Uniform3(ULightDirection, direction.X, direction.Y, direction.Z);
+
+            Gl.Uniform3(ULightAmbient, light.Ambient.X, light.Ambient.Y, light.Ambient.Z);
+            Gl.Uniform3(ULightDiffuse, light.Diffuse.X, light.Diffuse.Y, light.Diffuse.Z);
+            Gl.Uniform3(ULightSpecular, light.Specular.X, light.Specular.Y, light.Specular.Z);
+
+            Gl.Uniform1(ULightConstant, light.ConstantCoefficient);
+            Gl.Uniform1(ULightLinear, light.LinearCoefficient);
+            Gl.Uniform1(ULightQuadratic, light.QuadraticCoefficient);
+
+            Gl.Uniform1(ULightInnerCutOff, light.InnerCutOff);
+            Gl.Uniform1(ULightOuterCutOff, light.OuterCutOff);
         }
 
         protected override void SetUpLocations()
