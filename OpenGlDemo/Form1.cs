@@ -55,7 +55,7 @@ namespace OpenGlDemo
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
             _scene = new SingleObjectScene(_cameraStartPosition);
 
-            _light = LightBuilder.CreateWhiteLight();
+            _light = LightBuilder.CreateWhiteLight(LightType.Ambient);
             _light.Type = _defaultLightType;
 
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
@@ -99,77 +99,92 @@ namespace OpenGlDemo
                 }
             }
 
-            switch (e.KeyCode)
+            if (e.Modifiers == Keys.Control)
             {
-                case Keys.NumPad4:
-                    _scene.RotateFigures(FigureRotation.OY, -_figureRotationAngle);
-                    break;
-                case Keys.NumPad6:
-                    _scene.RotateFigures(FigureRotation.OY, _figureRotationAngle);
-                    break;
-                case Keys.NumPad8:
-                    _scene.RotateFigures(FigureRotation.OX, -_figureRotationAngle);
-                    break;
-                case Keys.NumPad2:
-                    _scene.RotateFigures(FigureRotation.OX, _figureRotationAngle);
-                    break;
-                case Keys.NumPad7:
-                    _scene.RotateFigures(FigureRotation.OZ, _figureRotationAngle);
-                    break;
-                case Keys.NumPad9:
-                    _scene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
-                    break;
-                case Keys.Space:
-                    _isCameraMoveEnabled = !_isCameraMoveEnabled;
-                    break;
-                case Keys.D1:
-                    _figure.Material = MaterialType.Gold;
-                    break;
-                case Keys.D2:
-                    _figure.Material = MaterialType.Silver;
-                    break;
-                case Keys.D3:
-                    _figure.Material = MaterialType.Bronze;
-                    break;
-                case Keys.D4:
-                    _figure.Material = MaterialType.GreenRubber;
-                    break;
-                case Keys.D5:
-                    _figure.Material = MaterialType.RedPlastic;
-                    break;
-                case Keys.D6:
-                    _figure.Material = MaterialType.Obsidian;
-                    break;
-                case Keys.D7:
-                    _figure.Material = MaterialType.Emerald;
-                    break;
-                case Keys.D8:
-                    _figure.Material = MaterialType.Ruby;
-                    break;
-                case Keys.D9:
-                    _figure.Material = MaterialType.Brass;
-                    break;
-                case Keys.D0:
-                    _figure.Material = MaterialType.Chrome;
-                    break;
-                case Keys.OemMinus:
-                    _figure.Material = MaterialType.Copper;
-                    break;
-                case Keys.Oemplus:
-                    _figure.Material = MaterialType.Pearl;
-                    break;
-                case Keys.F1:
-                    _light.Type = LightType.Ambient;
-                    break;
-                case Keys.F2:
-                    _light.Type = LightType.Directional;
-                    break;
-                case Keys.F3:
-                    _light.Type = LightType.Point;
-                    break;
-                case Keys.F4:
-                    _light.Type = LightType.Spotlight;
-                    break;
+                switch (e.KeyCode)
+                {
+                    case Keys.D1:
+                        _light = LightBuilder.CreateWhiteLight(_light.Type);
+                        break;
+                    case Keys.D2:
+                        _light = LightBuilder.CreateDimWhiteLight(_light.Type);
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.NumPad4:
+                        _scene.RotateFigures(FigureRotation.OY, -_figureRotationAngle);
+                        break;
+                    case Keys.NumPad6:
+                        _scene.RotateFigures(FigureRotation.OY, _figureRotationAngle);
+                        break;
+                    case Keys.NumPad8:
+                        _scene.RotateFigures(FigureRotation.OX, -_figureRotationAngle);
+                        break;
+                    case Keys.NumPad2:
+                        _scene.RotateFigures(FigureRotation.OX, _figureRotationAngle);
+                        break;
+                    case Keys.NumPad7:
+                        _scene.RotateFigures(FigureRotation.OZ, _figureRotationAngle);
+                        break;
+                    case Keys.NumPad9:
+                        _scene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
+                        break;
+                    case Keys.Space:
+                        _isCameraMoveEnabled = !_isCameraMoveEnabled;
+                        break;
+                    case Keys.D1:
+                        _figure.Material = MaterialType.Gold;
+                        break;
+                    case Keys.D2:
+                        _figure.Material = MaterialType.Silver;
+                        break;
+                    case Keys.D3:
+                        _figure.Material = MaterialType.Bronze;
+                        break;
+                    case Keys.D4:
+                        _figure.Material = MaterialType.GreenRubber;
+                        break;
+                    case Keys.D5:
+                        _figure.Material = MaterialType.RedPlastic;
+                        break;
+                    case Keys.D6:
+                        _figure.Material = MaterialType.Obsidian;
+                        break;
+                    case Keys.D7:
+                        _figure.Material = MaterialType.Emerald;
+                        break;
+                    case Keys.D8:
+                        _figure.Material = MaterialType.Ruby;
+                        break;
+                    case Keys.D9:
+                        _figure.Material = MaterialType.Brass;
+                        break;
+                    case Keys.D0:
+                        _figure.Material = MaterialType.Chrome;
+                        break;
+                    case Keys.OemMinus:
+                        _figure.Material = MaterialType.Copper;
+                        break;
+                    case Keys.Oemplus:
+                        _figure.Material = MaterialType.Pearl;
+                        break;
+                    case Keys.F1:
+                        _light.Type = LightType.Ambient;
+                        break;
+                    case Keys.F2:
+                        _light.Type = LightType.Directional;
+                        break;
+                    case Keys.F3:
+                        _light.Type = LightType.Point;
+                        break;
+                    case Keys.F4:
+                        _light.Type = LightType.Spotlight;
+                        break;
+                }
             }
 
             glControl.Refresh();
@@ -181,9 +196,10 @@ namespace OpenGlDemo
             {
                 _scene.ChangeCameraView(
                     e.Location.X - _previousMousPosition.X, _previousMousPosition.Y - e.Location.Y, _mouseSensitivity);
-                _previousMousPosition = e.Location;
                 glControl.Refresh();
             }
+
+            _previousMousPosition = e.Location;
         }
 
         private void glControl_MouseWheel(object sender, MouseEventArgs e)
