@@ -21,12 +21,14 @@ namespace OpenGlDemo
         private readonly float _cameraMoveStep = 0.05f;
         private readonly float _mouseSensitivity = 0.25f;
         private readonly float _mouseWheelSensitivity = 0.05f;
-        private readonly Vector3 _cameraStartPosition = new Vector3(0f, 0f, 3f);
         private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
         private readonly LightType _defaultLightType = LightType.Ambient;
 
         private Model _figure;
-        private IScene _scene;
+        private IScene _currentScene;
+        private IScene _singleObjectScene;
+        private IScene _multipleObjectsSceneStartInCenter;
+        private IScene _multipleObjectsSceneStartOutside;
         private Light _light;
         private ShaderProgram _figureShaderProgram;
         private bool _isCameraMoveEnabled = false;
@@ -54,7 +56,6 @@ namespace OpenGlDemo
                     $"{GlobalConfig.CurrentDirectory}/{GlobalConfig.ShadersDirectory}/{GlobalConfig.FigureFragmentShader}");
 
             _figureShaderProgram = new FigureShaderProgram(new[] { vertexShader }, new[] { fragmentShader });
-            _scene = new SingleObjectScene(_cameraStartPosition);
 
             _light = LightBuilder.CreateWhiteLight(LightType.Ambient);
             _light.Type = _defaultLightType;
@@ -62,7 +63,28 @@ namespace OpenGlDemo
             _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _figure.Material = _defaultMaterial;
 
-            _scene.AddFigure(_figure);
+            _singleObjectScene = new SingleObjectScene(new Vector3(0f, 0f, 3f));
+            _singleObjectScene.AddFigure(_figure);
+
+            _multipleObjectsSceneStartInCenter = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
+            {
+                CameraPosition = new Vector3(0f, 0f, 0f),
+                MinObjectPostion = new Vector3(-50f, -50f, -50f),
+                MaxObjectPosition = new Vector3(50f, 50f, 50f),
+                ObjectsCount = 10000
+            });
+            _multipleObjectsSceneStartInCenter.AddFigure(_figure);
+
+            _multipleObjectsSceneStartOutside = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
+            {
+                CameraPosition = new Vector3(60f, 60f, 60f),
+                MinObjectPostion = new Vector3(-50f, -50f, -50f),
+                MaxObjectPosition = new Vector3(50f, 50f, 50f),
+                ObjectsCount = 10000
+            });
+            _multipleObjectsSceneStartOutside.AddFigure(_figure);
+
+            _currentScene = _singleObjectScene;
         }
 
         private void glControl_Render(object sender, GlControlEventArgs e)
@@ -70,7 +92,7 @@ namespace OpenGlDemo
             Control senderControl = (Control)sender;
             Gl.Viewport(0, 0, senderControl.ClientSize.Width, senderControl.ClientSize.Height);
             Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _scene.Render(senderControl.ClientSize.Width, senderControl.ClientSize.Height, _light, _figureShaderProgram);
+            _currentScene.Render(senderControl.ClientSize.Width, senderControl.ClientSize.Height, _light, _figureShaderProgram);
         }
 
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
@@ -86,16 +108,16 @@ namespace OpenGlDemo
                 switch (e.KeyCode)
                 {
                     case Keys.A:
-                        _scene.MoveCamera(CameraMove.Left, _cameraMoveStep);
+                        _currentScene.MoveCamera(CameraMove.Left, _cameraMoveStep);
                         break;
                     case Keys.D:
-                        _scene.MoveCamera(CameraMove.Right, _cameraMoveStep);
+                        _currentScene.MoveCamera(CameraMove.Right, _cameraMoveStep);
                         break;
                     case Keys.W:
-                        _scene.MoveCamera(CameraMove.Forward, _cameraMoveStep);
+                        _currentScene.MoveCamera(CameraMove.Forward, _cameraMoveStep);
                         break;
                     case Keys.S:
-                        _scene.MoveCamera(CameraMove.Backward, _cameraMoveStep);
+                        _currentScene.MoveCamera(CameraMove.Backward, _cameraMoveStep);
                         break;
                 }
             }
@@ -110,6 +132,15 @@ namespace OpenGlDemo
                     case Keys.D2:
                         _light = LightBuilder.CreateDimWhiteLight(_light.Type);
                         break;
+                    case Keys.F1:
+                        _currentScene = _singleObjectScene;
+                        break;
+                    case Keys.F2:
+                        _currentScene = _multipleObjectsSceneStartInCenter;
+                        break;
+                    case Keys.F3:
+                        _currentScene = _multipleObjectsSceneStartOutside;
+                        break;
                 }
             }
             else
@@ -117,22 +148,22 @@ namespace OpenGlDemo
                 switch (e.KeyCode)
                 {
                     case Keys.NumPad4:
-                        _scene.RotateFigures(FigureRotation.OY, -_figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OY, -_figureRotationAngle);
                         break;
                     case Keys.NumPad6:
-                        _scene.RotateFigures(FigureRotation.OY, _figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OY, _figureRotationAngle);
                         break;
                     case Keys.NumPad8:
-                        _scene.RotateFigures(FigureRotation.OX, -_figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OX, -_figureRotationAngle);
                         break;
                     case Keys.NumPad2:
-                        _scene.RotateFigures(FigureRotation.OX, _figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OX, _figureRotationAngle);
                         break;
                     case Keys.NumPad7:
-                        _scene.RotateFigures(FigureRotation.OZ, _figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OZ, _figureRotationAngle);
                         break;
                     case Keys.NumPad9:
-                        _scene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
+                        _currentScene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
                         break;
                     case Keys.Space:
                         _isCameraMoveEnabled = !_isCameraMoveEnabled;
@@ -195,7 +226,7 @@ namespace OpenGlDemo
         {
             if (_isCameraMoveEnabled)
             {
-                _scene.ChangeCameraView(
+                _currentScene.ChangeCameraView(
                     e.Location.X - _previousMousPosition.X, _previousMousPosition.Y - e.Location.Y, _mouseSensitivity);
                 glControl.Refresh();
             }
@@ -207,7 +238,7 @@ namespace OpenGlDemo
         {
             if (_isCameraMoveEnabled)
             {
-                _scene.ChangeCameraZoom(e.Delta, _mouseWheelSensitivity);
+                _currentScene.ChangeCameraZoom(e.Delta, _mouseWheelSensitivity);
                 glControl.Refresh();
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Lighting;
