@@ -1,5 +1,6 @@
 ﻿using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Lighting;
+using OpenGlDemo.Models;
 using OpenGlDemo.Motion;
 
 namespace OpenGlDemo.Rendering

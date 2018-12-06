@@ -4,6 +4,7 @@ using OpenGlDemo.Extensions;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Lighting;
 using OpenGlDemo.Materials;
+using OpenGlDemo.Models;
 using OpenGlDemo.Motion;
 using OpenGL;
 

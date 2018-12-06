@@ -6,9 +6,9 @@ using System.Windows.Forms;
 using OpenGlDemo.GlObjects.ShaderPrograms;
 using OpenGlDemo.Lighting;
 using OpenGlDemo.Materials;
+using OpenGlDemo.Models;
 using OpenGlDemo.Motion;
 using OpenGlDemo.Rendering;
-using OpenGlDemo.Rendering.Factory;
 using OpenGlDemo.Settings;
 using OpenGL;
 

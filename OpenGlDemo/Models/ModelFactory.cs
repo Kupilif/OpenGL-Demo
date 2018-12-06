@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace OpenGlDemo.Rendering.Factory
+namespace OpenGlDemo.Models
 {
     public static class ModelFactory
     {

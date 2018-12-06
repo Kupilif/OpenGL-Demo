@@ -4,7 +4,7 @@ using OpenGlDemo.GlObjects;
 using OpenGlDemo.Materials;
 using OpenGL;
 
-namespace OpenGlDemo.Rendering
+namespace OpenGlDemo.Models
 {
     public class Model : IDisposable
     {
