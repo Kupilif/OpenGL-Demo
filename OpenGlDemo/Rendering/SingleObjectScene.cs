@@ -79,7 +79,15 @@ namespace OpenGlDemo.Rendering
             Gl.Uniform1(figureShaderProgram.ULightType, (int) light.Type);
 
             Gl.Uniform3(figureShaderProgram.ULightPosition, _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
-            Gl.Uniform3(figureShaderProgram.ULightDirection, _camera.Front.X, _camera.Front.Y, _camera.Front.Z);
+
+            if (light.Type == LightType.Directional)
+            {
+                Gl.Uniform3(figureShaderProgram.ULightDirection, light.Direction.X, light.Direction.Y, light.Direction.Z);
+            }
+            else
+            {
+                Gl.Uniform3(figureShaderProgram.ULightDirection, _camera.Front.X, _camera.Front.Y, _camera.Front.Z);
+            }
 
             Gl.Uniform3(figureShaderProgram.ULightAmbient, light.Ambient.X, light.Ambient.Y, light.Ambient.Z);
             Gl.Uniform3(figureShaderProgram.ULightDiffuse, light.Diffuse.X, light.Diffuse.Y, light.Diffuse.Z);

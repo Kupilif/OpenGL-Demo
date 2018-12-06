@@ -6,6 +6,8 @@ namespace OpenGlDemo.Lighting
     {
         public LightType Type { get; set; }
 
+        public Vector3 Direction { get; set; }
+
         public Vector3 Ambient { get; set; }
         public Vector3 Diffuse { get; set; }
         public Vector3 Specular { get; set; }

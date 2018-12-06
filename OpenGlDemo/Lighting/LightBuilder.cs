@@ -10,6 +10,8 @@ namespace OpenGlDemo.Lighting
             {
                 Type = LightType.Ambient,
 
+                Direction = new Vector3(-1f, -1f, -1f),
+
                 Ambient = new Vector3(1f, 1f, 1f),
                 Diffuse = new Vector3(1f, 1f, 1f),
                 Specular = new Vector3(1f, 1f, 1f),
