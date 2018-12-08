@@ -16,26 +16,26 @@ namespace OpenGlDemo.Models
         private readonly Matrix4x4 _position;
 
         private readonly bool _useIndices;
-        private readonly int _vertexesCount;
+        private readonly int _elementsCount;
 
         private VertexBufferObject _vbo;
         private ElementBufferObject _ebo;
         private VertexArrayObject _vao;
 
-        public Model(float[] vertexes, int vertexesCount, Vector3 position, Action bindAttributes)
+        public Model(float[] vertexes, Vector3 position, Action bindAttributes)
         {
             _useIndices = false;
-            _vertexesCount = vertexesCount;
+            _elementsCount = vertexes.Length;
             _position = Matrix4x4.CreateTranslation(position);
             _matrix = Matrix4x4.Identity;
 
             Initialize(vertexes, null, bindAttributes);
         }
 
-        public Model(float[] vertexes, uint[] indices, int vertexesCount, Vector3 position, Action bindAttributes)
+        public Model(float[] vertexes, uint[] indices, Vector3 position, Action bindAttributes)
         {
             _useIndices = true;
-            _vertexesCount = vertexesCount;
+            _elementsCount = indices.Length;
             _position = Matrix4x4.CreateTranslation(position);
             _matrix = Matrix4x4.Identity;
 
@@ -53,11 +53,11 @@ namespace OpenGlDemo.Models
 
             if (_useIndices)
             {
-                Gl.DrawElements(PrimitiveType.Triangles, _vertexesCount, DrawElementsType.UnsignedInt, null);
+                Gl.DrawElements(PrimitiveType.Triangles, _elementsCount, DrawElementsType.UnsignedInt, null);
             }
             else
             {
-                Gl.DrawArrays(PrimitiveType.Triangles, 0, _vertexesCount);
+                Gl.DrawArrays(PrimitiveType.Triangles, 0, _elementsCount);
             }
 
             _vao.Unbind();
