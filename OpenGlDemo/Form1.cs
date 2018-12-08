@@ -49,6 +49,7 @@ namespace OpenGlDemo
             _singleObjectScene.AddFigure(_standartFigure);
             _currentFigure = _standartFigure;
             _importedFigure?.Dispose();
+            _importedFigure = null;
         }
 
         private void ImportFigure()
