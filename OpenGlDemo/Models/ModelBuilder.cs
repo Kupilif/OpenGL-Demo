@@ -5,7 +5,7 @@ using Assimp;
 
 namespace OpenGlDemo.Models
 {
-    public static class ModelFactory
+    public static class ModelBuilder
     {
         private static float[] _cubeVertexes => new float[]
         {

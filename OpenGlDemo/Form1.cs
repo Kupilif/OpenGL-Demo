@@ -62,7 +62,7 @@ namespace OpenGlDemo
             try
             {
                 string filePath = openFileDialog.FileName;
-                Model model = ModelFactory.ImportFromFile(filePath, new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+                Model model = ModelBuilder.ImportFromFile(filePath, new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
 
                 _importedFigure?.Dispose();
                 _importedFigure = model;
@@ -95,7 +95,7 @@ namespace OpenGlDemo
             _light = LightBuilder.CreateWhiteLight(LightType.Ambient);
             _light.Type = _defaultLightType;
 
-            _standardFigure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+            _standardFigure = ModelBuilder.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
             _standardFigure.Material = _defaultMaterial;
 
             _singleObjectScene = new SingleObjectScene(new Vector3(0f, 0f, 3f));

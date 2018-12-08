@@ -81,7 +81,7 @@
     <Compile Include="Materials\MaterialBuilder.cs" />
     <Compile Include="Materials\MaterialType.cs" />
     <Compile Include="Models\Model.cs" />
-    <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\ModelBuilder.cs" />
     <Compile Include="Motion\CameraMove.cs" />
     <Compile Include="Motion\FigureRotation.cs" />
     <Compile Include="Program.cs" />
@@ -104,10 +104,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="assets\shaders\figure-fragment-shader.glsl">
+    <None Include="assets\shaders\material-fragment-shader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="assets\shaders\figure-vertex-shader.glsl">
+    <None Include="assets\shaders\material-vertex-shader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

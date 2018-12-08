@@ -20,7 +20,7 @@ namespace OpenGlDemo.Settings
         }
 
         public static string ShadersDirectory => "assets/shaders";
-        public static string FigureVertexShader => "figure-vertex-shader.glsl";
-        public static string FigureFragmentShader => "figure-fragment-shader.glsl";
+        public static string FigureVertexShader => "material-vertex-shader.glsl";
+        public static string FigureFragmentShader => "material-fragment-shader.glsl";
     }
 }
