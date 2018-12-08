@@ -27,7 +27,7 @@ namespace OpenGlDemo
         private readonly Matrix4x4 _scaleDecreaseSize = Matrix4x4.CreateScale(0.5f, 0.5f, 0.5f);
 
         private Model _currentFigure;
-        private Model _standartFigure;
+        private Model _standardFigure;
         private Model _importedFigure;
         private IScene _currentScene;
         private IScene _singleObjectScene;
@@ -46,8 +46,8 @@ namespace OpenGlDemo
 
         private void SetStandardFigure()
         {
-            _singleObjectScene.AddFigure(_standartFigure);
-            _currentFigure = _standartFigure;
+            _singleObjectScene.AddFigure(_standardFigure);
+            _currentFigure = _standardFigure;
             _importedFigure?.Dispose();
             _importedFigure = null;
         }
@@ -95,11 +95,11 @@ namespace OpenGlDemo
             _light = LightBuilder.CreateWhiteLight(LightType.Ambient);
             _light.Type = _defaultLightType;
 
-            _standartFigure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
-            _standartFigure.Material = _defaultMaterial;
+            _standardFigure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+            _standardFigure.Material = _defaultMaterial;
 
             _singleObjectScene = new SingleObjectScene(new Vector3(0f, 0f, 3f));
-            _singleObjectScene.AddFigure(_standartFigure);
+            _singleObjectScene.AddFigure(_standardFigure);
 
             _multipleObjectsSceneStartInCenter = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
             {
@@ -108,7 +108,7 @@ namespace OpenGlDemo
                 MaxObjectPosition = new Vector3(50f, 50f, 50f),
                 ObjectsCount = 10000
             });
-            _multipleObjectsSceneStartInCenter.AddFigure(_standartFigure);
+            _multipleObjectsSceneStartInCenter.AddFigure(_standardFigure);
 
             _multipleObjectsSceneStartOutside = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
             {
@@ -117,10 +117,10 @@ namespace OpenGlDemo
                 MaxObjectPosition = new Vector3(50f, 50f, 50f),
                 ObjectsCount = 10000
             });
-            _multipleObjectsSceneStartOutside.AddFigure(_standartFigure);
+            _multipleObjectsSceneStartOutside.AddFigure(_standardFigure);
 
             _currentScene = _singleObjectScene;
-            _currentFigure = _standartFigure;
+            _currentFigure = _standardFigure;
         }
 
         private void glControl_Render(object sender, GlControlEventArgs e)
@@ -134,7 +134,7 @@ namespace OpenGlDemo
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
         {
             _figureShaderProgram?.Dispose();
-            _standartFigure?.Dispose();
+            _standardFigure?.Dispose();
             _importedFigure?.Dispose();
         }
 
