@@ -23,8 +23,12 @@ namespace OpenGlDemo
         private readonly float _mouseWheelSensitivity = 0.05f;
         private readonly MaterialType _defaultMaterial = MaterialType.Bronze;
         private readonly LightType _defaultLightType = LightType.Ambient;
+        private readonly Matrix4x4 _scaleIncreaseSize = Matrix4x4.CreateScale(2, 2, 2);
+        private readonly Matrix4x4 _scaleDecreaseSize = Matrix4x4.CreateScale(0.5f, 0.5f, 0.5f);
 
-        private Model _figure;
+        private Model _currentFigure;
+        private Model _standardFigure;
+        private Model _importedFigure;
         private IScene _currentScene;
         private IScene _singleObjectScene;
         private IScene _multipleObjectsSceneStartInCenter;
@@ -38,6 +42,37 @@ namespace OpenGlDemo
         {
             InitializeComponent();
             glControl.MouseWheel += glControl_MouseWheel;
+        }
+
+        private void SetStandardFigure()
+        {
+            _singleObjectScene.AddFigure(_standardFigure);
+            _currentFigure = _standardFigure;
+            _importedFigure?.Dispose();
+            _importedFigure = null;
+        }
+
+        private void ImportFigure()
+        {
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                string filePath = openFileDialog.FileName;
+                Model model = ModelFactory.ImportFromFile(filePath, new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+
+                _importedFigure?.Dispose();
+                _importedFigure = model;
+                _currentFigure = _importedFigure;
+                _singleObjectScene.AddFigure(_importedFigure);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to open model", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
@@ -60,11 +95,11 @@ namespace OpenGlDemo
             _light = LightBuilder.CreateWhiteLight(LightType.Ambient);
             _light.Type = _defaultLightType;
 
-            _figure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
-            _figure.Material = _defaultMaterial;
+            _standardFigure = ModelFactory.CreateCube(new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+            _standardFigure.Material = _defaultMaterial;
 
             _singleObjectScene = new SingleObjectScene(new Vector3(0f, 0f, 3f));
-            _singleObjectScene.AddFigure(_figure);
+            _singleObjectScene.AddFigure(_standardFigure);
 
             _multipleObjectsSceneStartInCenter = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
             {
@@ -73,7 +108,7 @@ namespace OpenGlDemo
                 MaxObjectPosition = new Vector3(50f, 50f, 50f),
                 ObjectsCount = 10000
             });
-            _multipleObjectsSceneStartInCenter.AddFigure(_figure);
+            _multipleObjectsSceneStartInCenter.AddFigure(_standardFigure);
 
             _multipleObjectsSceneStartOutside = new MultipleRandomObjectsScene(new MultipleRandomObjectsScene.Args
             {
@@ -82,9 +117,10 @@ namespace OpenGlDemo
                 MaxObjectPosition = new Vector3(50f, 50f, 50f),
                 ObjectsCount = 10000
             });
-            _multipleObjectsSceneStartOutside.AddFigure(_figure);
+            _multipleObjectsSceneStartOutside.AddFigure(_standardFigure);
 
             _currentScene = _singleObjectScene;
+            _currentFigure = _standardFigure;
         }
 
         private void glControl_Render(object sender, GlControlEventArgs e)
@@ -98,7 +134,8 @@ namespace OpenGlDemo
         private void glControl_ContextDestroying(object sender, GlControlEventArgs e)
         {
             _figureShaderProgram?.Dispose();
-            _figure?.Dispose();
+            _standardFigure?.Dispose();
+            _importedFigure?.Dispose();
         }
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
@@ -141,6 +178,12 @@ namespace OpenGlDemo
                     case Keys.F3:
                         _currentScene = _multipleObjectsSceneStartOutside;
                         break;
+                    case Keys.O:
+                        ImportFigure();
+                        break;
+                    case Keys.P:
+                        SetStandardFigure();
+                        break;
                 }
             }
             else
@@ -165,44 +208,50 @@ namespace OpenGlDemo
                     case Keys.NumPad9:
                         _currentScene.RotateFigures(FigureRotation.OZ, -_figureRotationAngle);
                         break;
+                    case Keys.Add:
+                        _currentFigure.Transform(_scaleIncreaseSize);
+                        break;
+                    case Keys.Subtract:
+                        _currentFigure.Transform(_scaleDecreaseSize);
+                        break;
                     case Keys.Space:
                         _isCameraMoveEnabled = !_isCameraMoveEnabled;
                         break;
                     case Keys.D1:
-                        _figure.Material = MaterialType.Gold;
+                        _currentFigure.Material = MaterialType.Gold;
                         break;
                     case Keys.D2:
-                        _figure.Material = MaterialType.Silver;
+                        _currentFigure.Material = MaterialType.Silver;
                         break;
                     case Keys.D3:
-                        _figure.Material = MaterialType.Bronze;
+                        _currentFigure.Material = MaterialType.Bronze;
                         break;
                     case Keys.D4:
-                        _figure.Material = MaterialType.GreenRubber;
+                        _currentFigure.Material = MaterialType.GreenRubber;
                         break;
                     case Keys.D5:
-                        _figure.Material = MaterialType.RedPlastic;
+                        _currentFigure.Material = MaterialType.RedPlastic;
                         break;
                     case Keys.D6:
-                        _figure.Material = MaterialType.Obsidian;
+                        _currentFigure.Material = MaterialType.Obsidian;
                         break;
                     case Keys.D7:
-                        _figure.Material = MaterialType.Emerald;
+                        _currentFigure.Material = MaterialType.Emerald;
                         break;
                     case Keys.D8:
-                        _figure.Material = MaterialType.Ruby;
+                        _currentFigure.Material = MaterialType.Ruby;
                         break;
                     case Keys.D9:
-                        _figure.Material = MaterialType.Brass;
+                        _currentFigure.Material = MaterialType.Brass;
                         break;
                     case Keys.D0:
-                        _figure.Material = MaterialType.Chrome;
+                        _currentFigure.Material = MaterialType.Chrome;
                         break;
                     case Keys.OemMinus:
-                        _figure.Material = MaterialType.Copper;
+                        _currentFigure.Material = MaterialType.Copper;
                         break;
                     case Keys.Oemplus:
-                        _figure.Material = MaterialType.Pearl;
+                        _currentFigure.Material = MaterialType.Pearl;
                         break;
                     case Keys.F1:
                         _light.Type = LightType.Ambient;

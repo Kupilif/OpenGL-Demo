@@ -63,7 +63,7 @@ namespace OpenGlDemo.Rendering
             _yaw += xOffset;
             _pitch += yOffset;
             _pitch = _pitch > _maxPitch ? _maxPitch : _pitch;
-            _pitch = _pitch < _minPitch ? -_minPitch : _pitch;
+            _pitch = _pitch < _minPitch ? _minPitch : _pitch;
 
             _front.X = (float) Math.Cos(_yaw.ToRadians()) * (float) Math.Cos(_pitch.ToRadians());
             _front.Y = (float)Math.Sin(_pitch.ToRadians());
