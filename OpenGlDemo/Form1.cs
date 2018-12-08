@@ -44,6 +44,36 @@ namespace OpenGlDemo
             glControl.MouseWheel += glControl_MouseWheel;
         }
 
+        private void SetStandardFigure()
+        {
+            _singleObjectScene.AddFigure(_standartFigure);
+            _currentFigure = _standartFigure;
+            _importedFigure?.Dispose();
+        }
+
+        private void ImportFigure()
+        {
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                string filePath = openFileDialog.FileName;
+                Model model = ModelFactory.ImportFromFile(filePath, new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
+
+                _importedFigure?.Dispose();
+                _importedFigure = model;
+                _currentFigure = _importedFigure;
+                _singleObjectScene.AddFigure(_importedFigure);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to open model", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void glControl_ContextCreated(object sender, GlControlEventArgs e)
         {
             Control senderControl = (Control)sender;
@@ -148,10 +178,10 @@ namespace OpenGlDemo
                         _currentScene = _multipleObjectsSceneStartOutside;
                         break;
                     case Keys.O:
-                        var filePath = $"{GlobalConfig.CurrentDirectory}/assets/3D Models/House/house.obj";
-                        _importedFigure = ModelFactory.ImportFromFile(filePath, new Vector3(0f, 0f, 0f), _figureShaderProgram.BindAttributes);
-                        _singleObjectScene.AddFigure(_importedFigure);
-                        _currentFigure = _importedFigure;
+                        ImportFigure();
+                        break;
+                    case Keys.P:
+                        SetStandardFigure();
                         break;
                 }
             }

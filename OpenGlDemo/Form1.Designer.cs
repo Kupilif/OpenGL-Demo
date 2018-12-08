@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.glControl = new OpenGL.GlControl();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // glControl
@@ -53,6 +54,10 @@
             this.glControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl_KeyDown);
             this.glControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl_MouseMove);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.RestoreDirectory = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -68,6 +73,7 @@
         #endregion
 
         private OpenGL.GlControl glControl;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 
